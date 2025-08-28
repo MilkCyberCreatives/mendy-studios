@@ -1,21 +1,23 @@
 'use client';
-
 import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function ContactHero() {
   return (
-    <section className="relative h-[60vh] w-full bg-cover bg-center flex items-center justify-center" style={{ backgroundImage: "url('/images/contact/contact-hero-bg.jpg')" }}>
-      <div className="absolute inset-0 bg-black bg-opacity-60" />
+    <section className="relative h-[60vh] flex items-center justify-center bg-cover bg-center bg-[url('/images/contact-bg.jpg')]">
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/60" />
+
+      {/* Content */}
       <motion.div
-        className="relative z-10 text-center text-white px-4"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8 }}
+        className="relative text-center text-white px-4"
       >
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Mendy <span className="text-[#F26722]">Studios</span></h1>
-        <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-          Let's bring your vision to life — reach out to us today.
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">Get In Touch</h1>
+        <p className="text-lg max-w-2xl mx-auto">
+          We don&apos;t just take pictures — we capture unforgettable memories.
         </p>
       </motion.div>
     </section>
