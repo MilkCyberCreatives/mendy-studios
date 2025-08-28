@@ -7,13 +7,17 @@ import Lightbox from 'yet-another-react-lightbox';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
 import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
 
-// ✅ Only import the core Lightbox styles (do not import plugin CSS files on Vercel)
 import 'yet-another-react-lightbox/styles.css';
+import 'yet-another-react-lightbox/plugins/thumbnails.css';
 
-// Create array of 53 image paths
-const allGalleryImages = Array.from({ length: 53 }, (_, i) => `/images/gallery/gallery${i + 1}.jpg`);
+const TOTAL_IMAGES = 53;
+const INITIAL_COUNT = 12;
+const LOAD_COUNT = 12;
 
-// Shuffle helper function
+// Generate gallery image paths
+const allGalleryImages = Array.from({ length: TOTAL_IMAGES }, (_, i) => `/images/gallery/gallery${i + 1}.jpg`);
+
+// Shuffle helper
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -24,17 +28,20 @@ function shuffleArray<T>(array: T[]): T[] {
 }
 
 export default function GalleryGrid() {
-  const visibleImages = useMemo(() => shuffleArray(allGalleryImages).slice(0, 12), []);
+  const shuffledImages = useMemo(() => shuffleArray(allGalleryImages), []);
+  const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
   const [index, setIndex] = useState(-1); // Lightbox index
 
+  const visibleImages = shuffledImages.slice(0, visibleCount);
+
   return (
-    <section className="bg-black py-20 px-6 text-white">
+    <section className="bg-black py-20 px-4 md:px-6 text-white">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Captured Moments
         </h2>
 
-        {/* Masonry Grid */}
+        {/* Pinterest Masonry Layout */}
         <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
           {visibleImages.map((src, i) => (
             <motion.div
@@ -43,7 +50,7 @@ export default function GalleryGrid() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
+              transition={{ duration: 0.4, delay: i * 0.04 }}
               onClick={() => setIndex(i)}
             >
               <Image
@@ -51,11 +58,26 @@ export default function GalleryGrid() {
                 alt={`Gallery Image ${i + 1}`}
                 width={600}
                 height={800}
+                loading="lazy"
                 className="w-full h-auto object-cover rounded-xl hover:scale-105 transition-transform duration-300"
               />
             </motion.div>
           ))}
         </div>
+
+        {/* Load More Button */}
+        {visibleCount < shuffledImages.length && (
+          <div className="text-center mt-10">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setVisibleCount(prev => prev + LOAD_COUNT)}
+              className="bg-white text-black px-6 py-3 rounded-lg font-medium shadow hover:bg-gray-200 transition"
+            >
+              Load More
+            </motion.button>
+          </div>
+        )}
 
         {/* Lightbox Viewer */}
         <Lightbox
