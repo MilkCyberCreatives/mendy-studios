@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { TbBrandThreads } from 'react-icons/tb';
 
 export default function HeroSection() {
   const imageAnimations = {
@@ -36,14 +38,41 @@ export default function HeroSection() {
             <p className="text-gray-200 text-lg mb-6">
               Mendy Studios transforms your vision into powerful visuals.
             </p>
-            <motion.button
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition shadow-lg"
-            >
-              View Portfolio
-            </motion.button>
+            
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+              <motion.button
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition shadow-lg whitespace-nowrap"
+              >
+                View Portfolio
+              </motion.button>
+              
+              {/* Social Media Icons */}
+              <motion.div 
+                className="flex gap-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                <a href="#" className="text-white hover:text-blue-400 transition-colors" aria-label="Facebook">
+                  <FaFacebookF size={20} />
+                </a>
+                <a href="#" className="text-white hover:text-black transition-colors" aria-label="X (Twitter)">
+                  <FaTwitter size={20} />
+                </a>
+                <a href="#" className="text-white hover:text-pink-500 transition-colors" aria-label="Instagram">
+                  <FaInstagram size={20} />
+                </a>
+                <a href="#" className="text-white hover:text-blue-500 transition-colors" aria-label="LinkedIn">
+                  <FaLinkedinIn size={20} />
+                </a>
+                <a href="#" className="text-white hover:text-gray-400 transition-colors" aria-label="Threads">
+                  <TbBrandThreads size={20} />
+                </a>
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Right: Image Collage */}
