@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { HiOutlineMenuAlt3, HiOutlineX } from 'react-icons/hi';
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import { TbBrandThreads } from 'react-icons/tb';
 
 export default function MainHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,10 +40,7 @@ export default function MainHeader() {
     visible: (i) => ({ 
       opacity: 1, 
       y: 0, 
-      transition: { 
-        delay: i * 0.1, 
-        duration: 0.5 
-      } 
+      transition: { delay: i * 0.1, duration: 0.5 } 
     })
   };
 
@@ -58,10 +57,7 @@ export default function MainHeader() {
     >
       <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
         {/* Logo */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
+        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Link href="/">
             <Image
               src="/mendy-studios-logo-white.svg"
@@ -98,10 +94,7 @@ export default function MainHeader() {
         </nav>
 
         {/* Mobile Menu Toggle */}
-        <motion.div 
-          className="md:hidden text-white text-2xl"
-          whileTap={{ scale: 0.9 }}
-        >
+        <motion.div className="md:hidden text-white text-2xl" whileTap={{ scale: 0.9 }}>
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2"
