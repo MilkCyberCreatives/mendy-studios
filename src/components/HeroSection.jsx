@@ -109,19 +109,19 @@ export default function HeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
               >
-                <a href="#" className="text-white hover:text-blue-400 transition-colors duration-300" aria-label="Facebook">
+                <a href="https://www.facebook.com/MendyStudios" className="text-white hover:text-blue-400 transition-colors duration-300" aria-label="Facebook">
                   <FaFacebookF size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-black transition-colors duration-300" aria-label="X (Twitter)">
+                <a href="https://x.com/mendystudios" className="text-white hover:text-black transition-colors duration-300" aria-label="X (Twitter)">
                   <FaTwitter size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-pink-500 transition-colors duration-300" aria-label="Instagram">
+                <a href="https://www.instagram.com/mendystudios/" className="text-white hover:text-pink-500 transition-colors duration-300" aria-label="Instagram">
                   <FaInstagram size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-blue-500 transition-colors duration-300" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/mendy-studios" className="text-white hover:text-blue-500 transition-colors duration-300" aria-label="LinkedIn">
                   <FaLinkedinIn size={20} />
                 </a>
-                <a href="#" className="text-white hover:text-gray-400 transition-colors duration-300" aria-label="Threads">
+                <a href="https://www.threads.com/@mendystudios" className="text-white hover:text-gray-400 transition-colors duration-300" aria-label="Threads">
                   <TbBrandThreads size={20} />
                 </a>
               </motion.div>
