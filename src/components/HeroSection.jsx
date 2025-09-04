@@ -7,13 +7,13 @@ import { TbBrandThreads } from 'react-icons/tb';
 
 export default function HeroSection() {
   const imageAnimations = {
-    initial: { opacity: 0, scale: 0.8, y: 30 },
+    initial: { opacity: 0, scale: 0.9, y: 30 },
     animate: { opacity: 1, scale: 1, y: 0 },
   };
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden pt-20 md:pt-28">
-      {/* Full Background */}
+      {/* Background */}
       <div className="absolute inset-0 -z-10">
         <div
           className="w-full h-full bg-cover bg-center"
@@ -22,11 +22,11 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       </div>
 
-      {/* Content Area */}
+      {/* Content */}
       <div className="h-full w-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
           
-          {/* Images - First on mobile, second on desktop */}
+          {/* Images - First on mobile */}
           <div className="order-1 md:order-2">
             <div className="grid grid-cols-2 gap-3 md:gap-4 relative">
               {/* Column 1 */}
@@ -36,17 +36,19 @@ export default function HeroSection() {
                     src="/images/hero1.jpg"
                     alt="Photo 1"
                     width={400}
-                    height={400}
+                    height={500}
                     className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
+                    priority
                   />
                 </motion.div>
-                <motion.div {...imageAnimations} transition={{ delay: 0.5, duration: 0.7 }} className="md:-mt-6">
+                {/* hero4 swapped to be taller */}
+                <motion.div {...imageAnimations} transition={{ delay: 0.5, duration: 0.7 }}>
                   <Image
                     src="/images/hero4.jpg"
                     alt="Photo 4"
                     width={400}
-                    height={400}
-                    className="rounded-xl shadow-lg object-cover aspect-[3/3] w-full"
+                    height={500}
+                    className="rounded-xl shadow-lg object-cover aspect-square w-full"
                   />
                 </motion.div>
               </div>
@@ -58,24 +60,25 @@ export default function HeroSection() {
                     src="/images/hero2.jpg"
                     alt="Photo 2"
                     width={400}
-                    height={400}
+                    height={500}
                     className="rounded-xl shadow-lg object-cover aspect-square w-full"
                   />
                 </motion.div>
+                {/* hero3 swapped to be taller */}
                 <motion.div {...imageAnimations} transition={{ delay: 0.4, duration: 0.7 }}>
                   <Image
                     src="/images/hero3.jpg"
                     alt="Photo 3"
                     width={400}
-                    height={400}
-                    className="rounded-xl shadow-lg object-cover aspect-square w-full"
+                    height={500}
+                    className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
                   />
                 </motion.div>
               </div>
             </div>
           </div>
 
-          {/* Text Content - Second on mobile, first on desktop */}
+          {/* Text - Second on mobile */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -99,7 +102,7 @@ export default function HeroSection() {
                 View Portfolio
               </motion.button>
               
-              {/* Social Media Icons */}
+              {/* Social Media */}
               <motion.div 
                 className="flex gap-4 justify-center md:justify-start mt-4 sm:mt-0"
                 initial={{ opacity: 0 }}
