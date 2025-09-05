@@ -71,15 +71,17 @@ export default function ServicesSection() {
         </div>
 
         <motion.div
-          className="mt-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-        >
-          <button className="bg-[#F26722] text-white px-6 py-3 rounded-full shadow-lg hover:bg-[#d5521b] transition">
-            Book a Session
-          </button>
-        </motion.div>
+  className="mt-12"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ delay: 0.3 }}
+>
+  <a href="mailto:booking@mendystudios.co.za">
+    <button className="bg-[#F26722] text-white px-6 py-3 rounded-full shadow-lg hover:bg-[#d5521b] transition">
+      Book a Session
+    </button>
+  </a>
+</motion.div>
       </div>
     </section>
   );
