@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from "next/link";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { TbBrandThreads } from 'react-icons/tb';
 
@@ -93,14 +94,16 @@ export default function HeroSection() {
             </p>
             
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-center md:justify-start w-full">
-              <motion.button
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
-              >
-                View Portfolio
-              </motion.button>
+              <Link href="/gallery" passHref>
+  <motion.button
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.6 }}
+    className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+  >
+    View Portfolio
+  </motion.button>
+</Link>
               
               {/* Social Media */}
               <motion.div 
