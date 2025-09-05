@@ -56,7 +56,7 @@ export default function ContactCTASection() {
             Send Message
           </button>
           <a
-            href="https://wa.me/27123456789"
+            href="https://wa.me/27731085107"
             target="_blank"
             className="bg-green-500 px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-green-400 transition"
           >
