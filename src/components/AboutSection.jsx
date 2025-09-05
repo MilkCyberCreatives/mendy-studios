@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from "next/link";
 
 export default function AboutSection() {
   return (
@@ -26,14 +27,15 @@ export default function AboutSection() {
             experiences that reflect the heart of your story. From portraits to
             corporate events, our lens never misses the magic.
           </p>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-white text-black font-bold rounded-lg shadow-xl hover:bg-gray-200 transition"
-          >
-            Learn More
-          </motion.button>
-        </motion.div>
+          <Link href="/about" passHref>
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className="px-6 py-3 bg-white text-black font-bold rounded-lg shadow-xl hover:bg-gray-200 transition"
+  >
+    Learn More
+  </motion.button>
+</Link>
 
         {/* RIGHT IMAGE COLLAGE */}
         <div className="grid grid-cols-2 gap-4">
