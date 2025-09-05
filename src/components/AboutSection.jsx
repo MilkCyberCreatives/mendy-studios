@@ -11,6 +11,7 @@ export default function AboutSection() {
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-black/30 via-white/5 to-black/20 opacity-60" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+        
         {/* LEFT TEXT (NO SHAPE) */}
         <motion.div
           initial={{ opacity: 0, x: -80, rotate: -2 }}
@@ -27,15 +28,18 @@ export default function AboutSection() {
             experiences that reflect the heart of your story. From portraits to
             corporate events, our lens never misses the magic.
           </p>
-          <Link href="/about" passHref>
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className="px-6 py-3 bg-white text-black font-bold rounded-lg shadow-xl hover:bg-gray-200 transition"
-  >
-    Learn More
-  </motion.button>
-</Link>
+
+          {/* Button */}
+          <Link href="/about">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-3 bg-white text-black font-bold rounded-lg shadow-xl hover:bg-gray-200 transition"
+            >
+              Learn More
+            </motion.button>
+          </Link>
+        </motion.div> {/* ✅ closed this motion.div properly */}
 
         {/* RIGHT IMAGE COLLAGE */}
         <div className="grid grid-cols-2 gap-4">
