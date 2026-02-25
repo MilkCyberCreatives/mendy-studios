@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FaArrowRight, FaBolt, FaCheckCircle, FaRegClock } from 'react-icons/fa';
 import FooterSection from '../../components/FooterSection';
-import StructuredData from '../../components/StructuredData';
 import MotionVideoCard from '../../components/motion/MotionVideoCard';
 import { motionVideos } from '../../content/motion-videos';
 import { absoluteUrl, createPageMetadata, getBreadcrumbSchema } from '../../lib/seo';
@@ -47,18 +46,23 @@ const motionListSchema = {
 };
 
 export default function MotionPage() {
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: 'Home', path: '/' },
+    { name: 'Motion', path: '/motion' },
+  ]);
+
   return (
     <>
-      <StructuredData
+      <script
         id="schema-motion-breadcrumb"
-        data={
-          getBreadcrumbSchema([
-            { name: 'Home', path: '/' },
-            { name: 'Motion', path: '/motion' },
-          ])
-        }
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <StructuredData id="schema-motion-videos" data={motionListSchema} />
+      <script
+        id="schema-motion-videos"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(motionListSchema) }}
+      />
 
       <section data-reveal className="relative overflow-hidden bg-[#050505] pb-16 pt-32 text-white">
         <div className="pointer-events-none absolute inset-0">
