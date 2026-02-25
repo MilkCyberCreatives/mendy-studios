@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { FaArrowRight, FaBolt, FaCheckCircle, FaRegClock } from 'react-icons/fa';
+import { FaArrowRight, FaBolt } from 'react-icons/fa';
 import FooterSection from '../../components/FooterSection';
+import MotionFullscreenHero from '../../components/motion/MotionFullscreenHero';
 import MotionVideoCard from '../../components/motion/MotionVideoCard';
 import { motionVideos } from '../../content/motion-videos';
 import { absoluteUrl, createPageMetadata, getBreadcrumbSchema } from '../../lib/seo';
@@ -21,6 +22,7 @@ export const metadata: Metadata = createPageMetadata({
 
 const featuredVideo = motionVideos.find((video) => video.featured) || motionVideos[0];
 const standardVideos = motionVideos.filter((video) => video.id !== featuredVideo.id);
+const streamVideoId = process.env.NEXT_PUBLIC_MOTION_STREAM_VIDEO_ID;
 
 const motionListSchema = {
   '@context': 'https://schema.org',
@@ -64,55 +66,16 @@ export default function MotionPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(motionListSchema) }}
       />
 
-      <section data-reveal className="relative overflow-hidden bg-[#050505] pb-16 pt-32 text-white">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-[#F26722]/20 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
-        </div>
+      <MotionFullscreenHero streamVideoId={streamVideoId} />
 
-        <div className="relative mx-auto flex max-w-7xl flex-col gap-10 px-6">
-          <div className="max-w-4xl space-y-6">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#F26722]/45 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#F9A26E]">
-              <FaBolt />
-              Motion Portfolio
-            </span>
-
-            <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
-              Cinematic motion that makes your brand impossible to ignore.
-            </h1>
-
-            <p className="max-w-2xl text-base leading-relaxed text-gray-300 md:text-lg">
-              A curated stream of Mendy Studios video work across campaigns, live events, interviews,
-              and storytelling edits. Every frame is crafted for impact and clean delivery on modern
-              screens.
-            </p>
-
-            <div className="flex flex-wrap gap-3 text-sm text-gray-200">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2">
-                <FaCheckCircle className="text-[#F26722]" />
-                Color-graded delivery
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2">
-                <FaCheckCircle className="text-[#F26722]" />
-                Social-ready exports
-              </span>
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2">
-                <FaRegClock className="text-[#F26722]" />
-                Fast turnaround workflows
-              </span>
-            </div>
-          </div>
-
-          <div id={`video-${featuredVideo.id}`}>
-            <MotionVideoCard video={featuredVideo} featured />
-          </div>
-        </div>
-      </section>
-
-      <section data-reveal className="bg-black px-6 py-16 text-white md:py-20">
+      <section id="motion-reels" data-reveal className="bg-black px-6 py-16 text-white md:py-20">
         <div className="mx-auto max-w-7xl space-y-8">
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div className="space-y-3">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#F26722]/45 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#F9A26E]">
+                <FaBolt />
+                Motion Portfolio
+              </span>
               <h2 className="text-3xl font-semibold md:text-4xl">More Motion Projects</h2>
               <p className="max-w-2xl text-gray-300">
                 Click any project card to load and play instantly. Videos are lazy-loaded to keep this
@@ -129,6 +92,9 @@ export default function MotionPage() {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <div id={`video-${featuredVideo.id}`} className="md:col-span-2 xl:col-span-3">
+              <MotionVideoCard video={featuredVideo} featured />
+            </div>
             {standardVideos.map((video) => (
               <div key={video.id} id={`video-${video.id}`}>
                 <MotionVideoCard video={video} />
