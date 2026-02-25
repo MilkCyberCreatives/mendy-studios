@@ -1,141 +1,124 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { HiOutlineMenuAlt3, HiOutlineX } from 'react-icons/hi';
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
-import { TbBrandThreads } from 'react-icons/tb';
+
+const navLinks = [
+  { name: 'Home', href: '/' },
+  { name: 'About', href: '/about' },
+  { name: 'Gallery', href: '/gallery' },
+  { name: 'Motion', href: '/motion' },
+  { name: 'Services', href: '/services' },
+  { name: 'Areas', href: '/locations' },
+  { name: 'Stories', href: '/stories' },
+  { name: 'Contact', href: '/contact' },
+];
 
 export default function MainHeader() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
+      setScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Gallery', href: '/gallery' },
-    { name: 'Services', href: '/services' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
-  const headerVariants = {
-    hidden: { y: -100 },
-    visible: { y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-  };
-
-  const navItemVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: (i) => ({ 
-      opacity: 1, 
-      y: 0, 
-      transition: { delay: i * 0.1, duration: 0.5 } 
-    })
-  };
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
-    <motion.header 
-      className={`fixed top-0 left-0 w-full z-50 backdrop-blur-xl border-b transition-all duration-300 ${
-        scrolled 
-          ? 'bg-black/70 border-white/10 shadow-xl' 
-          : 'bg-transparent border-white/20'
+    <header
+      className={`fixed top-0 left-0 w-full z-50 border-b backdrop-blur-xl transition-all duration-300 ${
+        scrolled
+          ? 'bg-black/85 border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)]'
+          : 'bg-black/35 border-white/15'
       }`}
-      initial="hidden"
-      animate="visible"
-      variants={headerVariants}
     >
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-          <Link href="/">
-            <Image
-              src="/mendy-studios-logo-white.svg"
-              alt="Mendy Studios Logo"
-              width={180}
-              height={50}
-              priority
-              className="hover:opacity-80 transition"
-            />
-          </Link>
-        </motion.div>
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 flex items-center justify-between gap-4">
+        <Link href="/" aria-label="Mendy Studios home" className="shrink-0">
+          <Image
+            src="/mendy-studios-logo-white.svg"
+            alt="Mendy Studios Logo"
+            width={168}
+            height={44}
+            priority
+            className="h-auto w-[140px] md:w-[168px]"
+          />
+        </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 text-white text-sm font-medium">
-          {navLinks.map((link, i) => (
-            <motion.div
-              key={link.name}
-              custom={i}
-              initial="hidden"
-              animate="visible"
-              variants={navItemVariants}
-              whileHover={{ y: -2 }}
-              whileTap={{ y: 0 }}
-            >
+        <nav className="hidden md:flex items-center gap-7 text-white text-sm font-medium">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
               <Link
+                key={link.name}
                 href={link.href}
-                className="relative group hover:text-gray-300 transition duration-200 py-2"
+                aria-current={isActive ? 'page' : undefined}
+                className={`group relative py-2 transition-colors ${
+                  isActive ? 'text-[#F26722]' : 'hover:text-gray-300'
+                }`}
               >
                 {link.name}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                <span
+                  className={`absolute left-0 -bottom-[1px] h-[2px] bg-[#F26722] transition-all ${
+                    isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
               </Link>
-            </motion.div>
-          ))}
+            );
+          })}
         </nav>
 
-        {/* Mobile Menu Toggle */}
-        <motion.div className="md:hidden text-white text-2xl" whileTap={{ scale: 0.9 }}>
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        <div className="md:hidden text-white text-2xl">
+          <button
+            onClick={() => setMobileMenuOpen((open) => !open)}
             className="p-2"
+            aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-main-nav"
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? <HiOutlineX /> : <HiOutlineMenuAlt3 />}
           </button>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Mobile Dropdown Nav */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-black/90 backdrop-blur-lg text-white overflow-hidden"
-          >
-            <div className="px-6 py-4 space-y-6">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <Link
-                    href={link.href}
-                    className="block text-lg font-medium py-2 border-b border-white/10 hover:text-gray-300 transition"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    {link.name}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.header>
+      <nav
+        id="mobile-main-nav"
+        className={`md:hidden bg-black/95 border-t border-white/10 overflow-hidden transition-[max-height,opacity] duration-300 ${
+          mobileMenuOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="px-4 py-3">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                aria-current={isActive ? 'page' : undefined}
+                className={`block py-3 text-base border-b border-white/10 transition ${
+                  isActive ? 'text-[#F26722]' : 'hover:text-gray-300'
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </header>
   );
 }

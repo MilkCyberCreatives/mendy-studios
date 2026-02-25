@@ -2,9 +2,10 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Link from "next/link";
+import Link from 'next/link';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { TbBrandThreads } from 'react-icons/tb';
+import { trackEvent } from '../lib/marketing';
 
 export default function HeroSection() {
   const imageAnimations = {
@@ -13,24 +14,23 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden pt-20 md:pt-28">
-      {/* Background */}
+    <section data-reveal className="relative min-h-[calc(100vh-5rem)] w-full overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <div
-          className="w-full h-full bg-cover bg-center"
-          style={{ backgroundImage: "url('/images/hero.jpg')" }}
+        <Image
+          src="/images/hero.jpg"
+          alt="Mendy Studios hero background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
         />
         <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
       </div>
 
-      {/* Content */}
-      <div className="h-full w-full flex items-center justify-center px-6 md:px-12 py-10 md:py-0">
+      <div className="h-full w-full flex items-center justify-center px-6 md:px-12 py-10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 items-center">
-          
-          {/* Images - First on mobile */}
           <div className="order-1 md:order-2">
             <div className="grid grid-cols-2 gap-3 md:gap-4 relative">
-              {/* Column 1 */}
               <div className="flex flex-col gap-3 md:gap-4">
                 <motion.div {...imageAnimations} transition={{ delay: 0.2, duration: 0.7 }}>
                   <Image
@@ -40,9 +40,9 @@ export default function HeroSection() {
                     height={500}
                     className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
                     priority
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
-                {/* hero4 swapped to be taller */}
                 <motion.div {...imageAnimations} transition={{ delay: 0.5, duration: 0.7 }}>
                   <Image
                     src="/images/hero4.jpg"
@@ -50,11 +50,11 @@ export default function HeroSection() {
                     width={400}
                     height={500}
                     className="rounded-xl shadow-lg object-cover aspect-square w-full"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
               </div>
-              
-              {/* Column 2 */}
+
               <div className="flex flex-col gap-3 md:gap-4 pt-8 md:pt-12">
                 <motion.div {...imageAnimations} transition={{ delay: 0.3, duration: 0.7 }}>
                   <Image
@@ -63,9 +63,9 @@ export default function HeroSection() {
                     width={400}
                     height={500}
                     className="rounded-xl shadow-lg object-cover aspect-square w-full"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
-                {/* hero3 swapped to be taller */}
                 <motion.div {...imageAnimations} transition={{ delay: 0.4, duration: 0.7 }}>
                   <Image
                     src="/images/hero3.jpg"
@@ -73,13 +73,13 @@ export default function HeroSection() {
                     width={400}
                     height={500}
                     className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
+                    sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
               </div>
             </div>
           </div>
 
-          {/* Text - Second on mobile */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
@@ -92,39 +92,76 @@ export default function HeroSection() {
             <p className="text-gray-200 text-lg md:text-xl mb-6 max-w-md">
               Mendy Studios transforms your vision into powerful visuals.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-center md:justify-start w-full">
               <Link href="/gallery" passHref>
-  <motion.button
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.6 }}
-    className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
-  >
-    View Portfolio
-  </motion.button>
-</Link>
-              
-              {/* Social Media */}
-              <motion.div 
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                  onClick={() => trackEvent('cta_click', { location: 'hero', target: 'gallery' })}
+                >
+                  View Portfolio
+                </motion.button>
+              </Link>
+
+              <Link href="/motion" passHref>
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.68 }}
+                  className="px-8 py-3 border border-white/30 bg-black/35 text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                  onClick={() => trackEvent('cta_click', { location: 'hero', target: 'motion' })}
+                >
+                  Watch Motion Reels
+                </motion.button>
+              </Link>
+
+              <motion.div
                 className="flex gap-4 justify-center md:justify-start mt-4 sm:mt-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
               >
-                <a href="https://www.facebook.com/MendyStudios" className="text-white hover:text-blue-400 transition-colors duration-300" aria-label="Facebook">
+                <a
+                  href="https://www.facebook.com/MendyStudios"
+                  className="text-white hover:text-blue-400 transition-colors duration-300"
+                  aria-label="Facebook"
+                  onClick={() => trackEvent('social_click', { platform: 'facebook', location: 'hero' })}
+                >
                   <FaFacebookF size={20} />
                 </a>
-                <a href="https://x.com/mendystudios" className="text-white hover:text-black transition-colors duration-300" aria-label="X (Twitter)">
+                <a
+                  href="https://x.com/mendystudios"
+                  className="text-white hover:text-black transition-colors duration-300"
+                  aria-label="X (Twitter)"
+                  onClick={() => trackEvent('social_click', { platform: 'x', location: 'hero' })}
+                >
                   <FaTwitter size={20} />
                 </a>
-                <a href="https://www.instagram.com/mendystudios/" className="text-white hover:text-pink-500 transition-colors duration-300" aria-label="Instagram">
+                <a
+                  href="https://www.instagram.com/mendystudios/"
+                  className="text-white hover:text-pink-500 transition-colors duration-300"
+                  aria-label="Instagram"
+                  onClick={() => trackEvent('social_click', { platform: 'instagram', location: 'hero' })}
+                >
                   <FaInstagram size={20} />
                 </a>
-                <a href="https://www.linkedin.com/company/mendy-studios" className="text-white hover:text-blue-500 transition-colors duration-300" aria-label="LinkedIn">
+                <a
+                  href="https://www.linkedin.com/company/mendy-studios"
+                  className="text-white hover:text-blue-500 transition-colors duration-300"
+                  aria-label="LinkedIn"
+                  onClick={() => trackEvent('social_click', { platform: 'linkedin', location: 'hero' })}
+                >
                   <FaLinkedinIn size={20} />
                 </a>
-                <a href="https://www.threads.com/@mendystudios" className="text-white hover:text-gray-400 transition-colors duration-300" aria-label="Threads">
+                <a
+                  href="https://www.threads.com/@mendystudios"
+                  className="text-white hover:text-gray-400 transition-colors duration-300"
+                  aria-label="Threads"
+                  onClick={() => trackEvent('social_click', { platform: 'threads', location: 'hero' })}
+                >
                   <TbBrandThreads size={20} />
                 </a>
               </motion.div>
