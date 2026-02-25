@@ -54,7 +54,7 @@ export default function ContactHero() {
         <div className="flex flex-wrap items-center gap-3">
           <a
             href={SITE.phoneHref}
-            className="rounded-full bg-[#F26722] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d9561b]"
+            className="hover-lift hover-glow hover-shine rounded-full bg-[#F26722] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d9561b]"
             onClick={() => trackLead('phone', 'contact_hero')}
           >
             Call {SITE.phone}
@@ -63,7 +63,7 @@ export default function ContactHero() {
             href={SITE.socials.whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-full border border-white/30 bg-black/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#F26722] hover:text-[#F26722]"
+            className="hover-lift hover-glow rounded-full border border-white/30 bg-black/35 px-6 py-3 text-sm font-semibold text-white transition hover:border-[#F26722] hover:text-[#F26722]"
             onClick={() => trackLead('whatsapp', 'contact_hero')}
           >
             WhatsApp Us

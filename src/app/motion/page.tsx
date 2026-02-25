@@ -121,7 +121,7 @@ export default function MotionPage() {
             </div>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-[#F26722]/60 bg-[#F26722] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#d9561b]"
+              className="hover-lift hover-glow hover-shine inline-flex items-center gap-2 rounded-full border border-[#F26722]/60 bg-[#F26722] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#d9561b]"
             >
               Book a Motion Project
               <FaArrowRight className="text-xs" />

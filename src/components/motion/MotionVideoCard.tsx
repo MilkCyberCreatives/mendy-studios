@@ -47,7 +47,7 @@ export default function MotionVideoCard({ video, featured = false }: MotionVideo
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-[0_20px_60px_rgba(0,0,0,0.45)] ${
+      className={`hover-lift hover-glow group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-[0_20px_60px_rgba(0,0,0,0.45)] ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
