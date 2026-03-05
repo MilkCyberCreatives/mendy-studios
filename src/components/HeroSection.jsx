@@ -9,6 +9,9 @@ import { trackEvent } from '../lib/marketing';
 import { SITE } from '../lib/seo';
 
 export default function HeroSection() {
+  const heroVideoId = 'PciVJ33gp58';
+  const heroVideoSrc = `https://www.youtube.com/embed/${heroVideoId}?autoplay=1&mute=0&controls=0&loop=1&playlist=${heroVideoId}&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3`;
+
   const imageAnimations = {
     initial: { opacity: 0, scale: 0.9, y: 30 },
     animate: { opacity: 1, scale: 1, y: 0 },
@@ -16,16 +19,15 @@ export default function HeroSection() {
 
   return (
     <section data-reveal className="relative min-h-[calc(100vh-5rem)] w-full overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <Image
-          src="/images/hero.jpg"
-          alt="Mendy Studios hero background"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
+      <div className="absolute inset-0 -z-10 overflow-hidden bg-black">
+        <iframe
+          src={heroVideoSrc}
+          title="Mendy Studios hero background video"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
-        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+        <div className="absolute inset-0 bg-black/45" />
       </div>
 
       <div className="h-full w-full flex items-center justify-center px-6 md:px-12 py-10">
