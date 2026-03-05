@@ -201,10 +201,10 @@ section {
   }
 
   .custom-cursor-dot {
-    width: 8px;
-    height: 8px;
-    margin-left: -4px;
-    margin-top: -4px;
+    width: 12px;
+    height: 12px;
+    margin-left: -6px;
+    margin-top: -6px;
     background-color: #fff;
     mix-blend-mode: difference;
   }
@@ -224,10 +224,10 @@ section {
   }
 
   .custom-cursor-dot.cursor-active {
-    width: 12px;
-    height: 12px;
-    margin-left: -6px;
-    margin-top: -6px;
+    width: 16px;
+    height: 16px;
+    margin-left: -8px;
+    margin-top: -8px;
     background-color: #fff;
     mix-blend-mode: normal;
   }

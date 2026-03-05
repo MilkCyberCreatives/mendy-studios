@@ -3,10 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import PageBreadcrumb from '../PageBreadcrumb';
 
 export default function AboutHero() {
   return (
-    <section data-reveal className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
+    <section data-reveal className="relative min-h-[60vh] w-full overflow-hidden text-white">
       <div className="absolute inset-0" aria-hidden="true">
         <Image
           src="/images/about/hero-bg.jpg"
@@ -17,22 +18,26 @@ export default function AboutHero() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(242,103,34,0.18),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(255,255,255,0.08),transparent_30%)]" />
       </div>
 
-      {/* Overlay Text Only */}
-      <motion.div
-        className="relative z-10 text-center px-4"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-      >
-        <h1 className="text-white text-4xl md:text-5xl font-bold mb-3">
-          The Story Behind <span className="text-[#F26722]">Mendy Studios</span>
-        </h1>
-        <p className="text-gray-300 text-base md:text-lg">
-          A lens focused on passion, precision, and powerful storytelling.
-        </p>
-      </motion.div>
+      <div className="relative mx-auto flex min-h-[60vh] max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
+        <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'About' }]} />
+
+        <motion.div
+          className="max-w-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          <h1 className="text-4xl font-bold mb-3 md:text-5xl">
+            The Story Behind <span className="text-[#F26722]">Mendy Studios</span>
+          </h1>
+          <p className="text-base text-gray-200 md:text-lg">
+            A lens focused on passion, precision, and powerful storytelling.
+          </p>
+        </motion.div>
+      </div>
     </section>
   );
 }

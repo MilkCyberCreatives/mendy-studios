@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaPlayCircle } from 'react-icons/fa';
+import PageBreadcrumb from '../PageBreadcrumb';
 
 type MotionFullscreenHeroProps = {
   streamVideoId?: string;
@@ -48,6 +49,8 @@ export default function MotionFullscreenHero({ streamVideoId }: MotionFullscreen
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-end gap-6 px-6 pb-16 pt-32">
+        <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Motion' }]} className="mb-auto" />
+
         <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#F26722]/50 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#F9A26E]">
           <FaPlayCircle />
           Motion Intro

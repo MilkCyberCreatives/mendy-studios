@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { FaArrowRight, FaBolt } from 'react-icons/fa';
 import FooterSection from '../../components/FooterSection';
+import StructuredData from '../../components/StructuredData';
 import MotionFullscreenHero from '../../components/motion/MotionFullscreenHero';
 import MotionVideoCard from '../../components/motion/MotionVideoCard';
 import { motionVideos } from '../../content/motion-videos';
@@ -48,23 +49,18 @@ const motionListSchema = {
 };
 
 export default function MotionPage() {
-  const breadcrumbSchema = getBreadcrumbSchema([
-    { name: 'Home', path: '/' },
-    { name: 'Motion', path: '/motion' },
-  ]);
-
   return (
     <>
-      <script
+      <StructuredData
         id="schema-motion-breadcrumb"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        data={
+          getBreadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'Motion', path: '/motion' },
+          ])
+        }
       />
-      <script
-        id="schema-motion-videos"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(motionListSchema) }}
-      />
+      <StructuredData id="schema-motion-videos" data={motionListSchema} />
 
       <MotionFullscreenHero streamVideoId={streamVideoId} />
 
@@ -77,7 +73,7 @@ export default function MotionPage() {
                 Motion Portfolio
               </span>
               <h2 className="text-3xl font-semibold md:text-4xl">More Motion Projects</h2>
-              <p className="max-w-2xl text-gray-300">
+              <p className="max-w-2xl text-gray-300 leading-relaxed">
                 Click any project card to load and play instantly. Videos are lazy-loaded to keep this
                 page and your full site fast.
               </p>

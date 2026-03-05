@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import FooterSection from '../../../components/FooterSection';
+import PageBreadcrumb from '../../../components/PageBreadcrumb';
 import StructuredData from '../../../components/StructuredData';
 import { getStoryBySlug, stories } from '../../../content/stories';
 import { services } from '../../../content/services';
@@ -86,12 +87,22 @@ export default function StoryDetailPage({ params }: StoryPageProps) {
 
       <article data-reveal className="bg-black text-white px-6 py-14 md:py-16">
         <div className="max-w-4xl mx-auto">
-          <Link href="/stories" className="text-sm text-[#F26722] hover:underline">
-            Back to Stories
-          </Link>
+          <PageBreadcrumb
+            items={[
+              { label: 'Home', href: '/' },
+              { label: 'Stories', href: '/stories' },
+              { label: story.title },
+            ]}
+          />
 
-          <p className="text-xs text-gray-400 mt-5">{formatDate(story.publishedAt)}</p>
-          <p className="text-xs text-gray-500 mt-1">{story.readMinutes} min read</p>
+          <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-gray-300">
+            <span className="rounded-full border border-white/15 bg-white/8 px-3 py-1">
+              {formatDate(story.publishedAt)}
+            </span>
+            <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-gray-400">
+              {story.readMinutes} min read
+            </span>
+          </div>
           <h1 className="text-3xl md:text-5xl font-bold mt-3 leading-tight">{story.title}</h1>
           <p className="text-gray-300 mt-4 text-lg">{story.description}</p>
 

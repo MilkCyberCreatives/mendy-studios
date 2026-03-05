@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { FaCheckCircle } from 'react-icons/fa';
 import { trackLead } from '../../lib/marketing';
 import { SITE } from '../../lib/seo';
+import PageBreadcrumb from '../PageBreadcrumb';
 
 export default function ContactHero() {
   return (
@@ -22,6 +23,8 @@ export default function ContactHero() {
       </div>
 
       <div className="relative mx-auto flex min-h-[68vh] max-w-7xl flex-col justify-center gap-8 px-6 pb-14 pt-32">
+        <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Contact' }]} />
+
         <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#F26722]/45 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#F9A26E]">
           Contact Mendy Studios
         </span>

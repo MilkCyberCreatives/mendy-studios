@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import FooterSection from '../../../components/FooterSection';
+import PageBreadcrumb from '../../../components/PageBreadcrumb';
 import StructuredData from '../../../components/StructuredData';
 import { services, getServiceBySlug } from '../../../content/services';
 import { stories } from '../../../content/stories';
@@ -92,9 +93,13 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
         <section className="px-6 py-14 md:py-16 border-b border-white/10">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <Link href="/services" className="text-sm text-[#F26722] hover:underline">
-                Back to Services
-              </Link>
+              <PageBreadcrumb
+                items={[
+                  { label: 'Home', href: '/' },
+                  { label: 'Services', href: '/services' },
+                  { label: service.title },
+                ]}
+              />
               <h1 className="text-4xl md:text-5xl font-bold mt-4">{service.title}</h1>
               <p className="text-gray-300 mt-4 text-lg">{service.summary}</p>
               <div className="flex flex-wrap gap-2 mt-5">
