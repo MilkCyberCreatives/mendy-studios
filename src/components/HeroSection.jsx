@@ -96,33 +96,35 @@ export default function HeroSection() {
               Mendy Studios transforms your vision into powerful visuals.
             </p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-center md:justify-start w-full">
-              <Link href="/gallery" passHref>
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
-                  onClick={() => trackEvent('cta_click', { location: 'hero', target: 'gallery' })}
-                >
-                  View Portfolio
-                </motion.button>
-              </Link>
+            <div className="w-full">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-center md:justify-start">
+                <Link href="/gallery" passHref>
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6 }}
+                    className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                    onClick={() => trackEvent('cta_click', { location: 'hero', target: 'gallery' })}
+                  >
+                    View Portfolio
+                  </motion.button>
+                </Link>
 
-              <Link href="/motion" passHref>
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.68 }}
-                  className="px-8 py-3 border border-white/30 bg-black/35 text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
-                  onClick={() => trackEvent('cta_click', { location: 'hero', target: 'motion' })}
-                >
-                  Watch Motion Reels
-                </motion.button>
-              </Link>
+                <Link href="/motion" passHref>
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.68 }}
+                    className="px-8 py-3 border border-white/30 bg-black/35 text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                    onClick={() => trackEvent('cta_click', { location: 'hero', target: 'motion' })}
+                  >
+                    Watch Motion Reels
+                  </motion.button>
+                </Link>
+              </div>
 
               <motion.div
-                className="flex gap-4 justify-center md:justify-start mt-4 sm:mt-0"
+                className="mt-5 flex gap-4 justify-center md:justify-start"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8 }}
