@@ -54,7 +54,7 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section data-reveal className="bg-gradient-to-b from-[#0d0d0d] to-black text-white py-24 px-6">
+    <section data-reveal className="bg-black text-white py-24 px-6">
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
           className="text-3xl font-bold mb-4"
@@ -80,7 +80,7 @@ export default function ServicesSection() {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="bg-white/10 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-left hover:shadow-xl transition duration-300"
+              className="bg-white/10 border border-white/10 rounded-2xl p-6 text-left transition duration-300"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -104,7 +104,7 @@ export default function ServicesSection() {
             href={`mailto:${SITE.email}`}
             onClick={() => trackLead('email', 'services_section')}
           >
-            <button className="bg-[#F26722] text-white px-6 py-3 rounded-full shadow-lg hover:bg-[#d5521b] transition">
+            <button className="bg-[#F26722] text-white px-6 py-3 rounded-full hover:bg-[#d5521b] transition">
               Book a Session
             </button>
           </a>

@@ -10,9 +10,9 @@ import { trackEvent } from '../lib/marketing';
 export default function FooterSection() {
   return (
     <footer data-reveal className="relative bg-black py-20 px-6 text-gray-300 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#111111] via-black to-[#0d0d0d] opacity-90 z-0" />
+      <div className="absolute inset-0 bg-black/90 z-0" />
 
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-[80%] bg-gradient-to-r from-transparent via-[#F26722] to-transparent animate-pulse z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-[80%] bg-[#F26722]/70 z-10" />
 
       <div className="relative z-10 max-w-6xl mx-auto flex flex-col items-center text-center space-y-6">
         <motion.div
@@ -93,7 +93,7 @@ export default function FooterSection() {
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="mt-8 bg-[#F26722] text-white p-3 rounded-full shadow-xl hover:bg-[#d6551c] transition-all"
+          className="mt-8 bg-[#F26722] text-white p-3 rounded-full hover:bg-[#d6551c] transition-all"
           aria-label="Scroll to top"
         >
           <FaArrowUp />

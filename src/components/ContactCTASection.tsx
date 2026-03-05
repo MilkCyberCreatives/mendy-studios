@@ -56,7 +56,7 @@ export default function ContactCTASection() {
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/60" />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -116,7 +116,7 @@ export default function ContactCTASection() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-xl p-8 max-w-md w-full relative text-black shadow-xl"
+              className="bg-white rounded-xl p-8 max-w-md w-full relative text-black border border-black/10"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}

@@ -7,14 +7,14 @@ import { SITE } from '../lib/seo';
 
 export default function ContactSection() {
   return (
-    <section className="relative py-28 px-6 bg-gradient-to-b from-black via-[#0e0e0e] to-black overflow-hidden">
+    <section className="relative py-28 px-6 bg-black overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch relative z-10">
         {/* Left - Contact Info */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white/5 border border-white/10 backdrop-blur-lg rounded-2xl p-8 flex flex-col justify-center"
+          className="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col justify-center"
         >
           <h2 className="text-4xl font-bold text-white mb-4">
             Let’s <span className="text-[#F26722]">Connect</span>
@@ -24,7 +24,7 @@ export default function ContactSection() {
           </p>
 
           <div className="space-y-6">
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md hover:scale-[1.02] transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:scale-[1.02] transition-all">
               <div className="flex items-center gap-4">
                 <FaPhoneAlt className="text-[#F26722] text-xl" />
                 <div>
@@ -36,7 +36,7 @@ export default function ContactSection() {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md hover:scale-[1.02] transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:scale-[1.02] transition-all">
               <div className="flex items-center gap-4">
                 <FaEnvelope className="text-[#F26722] text-xl" />
                 <div>
@@ -51,7 +51,7 @@ export default function ContactSection() {
               </div>
             </div>
 
-            <div className="bg-white/5 border border-white/10 rounded-xl p-5 backdrop-blur-md hover:scale-[1.02] transition-all">
+            <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:scale-[1.02] transition-all">
               <div className="flex items-center gap-4">
                 <FaMapMarkerAlt className="text-[#F26722] text-xl" />
                 <div>
@@ -68,7 +68,7 @@ export default function ContactSection() {
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="bg-white/5 border border-white/10 backdrop-blur-lg p-8 rounded-2xl flex flex-col justify-center"
+          className="bg-white/5 border border-white/10 p-8 rounded-2xl flex flex-col justify-center"
         >
           <form className="space-y-6 text-white">
             <div className="relative">

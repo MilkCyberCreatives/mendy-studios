@@ -30,7 +30,7 @@ export default function GallerySection() {
   };
 
   return (
-    <section data-reveal className="bg-gradient-to-b from-black via-[#0d0d0d] to-black py-24 px-4 md:px-6">
+    <section data-reveal className="bg-black py-24 px-4 md:px-6">
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
           className="text-3xl font-bold text-white mb-3"
@@ -63,7 +63,7 @@ export default function GallerySection() {
             return (
               <motion.div
                 key={img.id}
-                className={`relative overflow-hidden rounded-2xl shadow-md break-inside-avoid transition-transform duration-300 hover:scale-[1.03] ${shapeClass}`}
+                className={`relative overflow-hidden rounded-2xl border border-white/10 break-inside-avoid transition-transform duration-300 hover:scale-[1.03] ${shapeClass}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.08 }}

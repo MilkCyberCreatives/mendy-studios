@@ -52,10 +52,10 @@ export default function ContactDetailsSection() {
 
   return (
     <section data-reveal className="relative overflow-hidden bg-black px-4 py-24 text-white md:px-6">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_0%,rgba(242,103,34,0.18),transparent_30%),radial-gradient(circle_at_95%_20%,rgba(255,255,255,0.08),transparent_28%)]" />
+      <div className="absolute inset-0 bg-black/15" />
 
       <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
-        <div className="hover-lift hover-glow space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl md:p-8">
+        <div className="hover-lift hover-glow space-y-6 rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
           <div>
             <h2 className="text-3xl font-semibold">Contact Details</h2>
             <p className="mt-2 text-sm text-gray-300">
@@ -145,7 +145,7 @@ export default function ContactDetailsSection() {
           </div>
         </div>
 
-        <div className="hover-lift hover-glow rounded-2xl border border-white/10 bg-[#0d0d0d]/90 p-6 shadow-2xl backdrop-blur-xl md:p-8">
+        <div className="hover-lift hover-glow rounded-2xl border border-white/10 bg-[#0d0d0d]/90 p-6 md:p-8">
           <h2 className="text-3xl font-semibold">Send Us a Message</h2>
           <p className="mt-2 text-sm text-gray-300">
             Share your event date, type of shoot, and location. We&apos;ll respond with the best next

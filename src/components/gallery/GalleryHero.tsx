@@ -17,7 +17,7 @@ export default function GalleryHero() {
         className="object-cover"
       />
       <div className="absolute inset-0 bg-black/60" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(242,103,34,0.2),transparent_35%),radial-gradient(circle_at_88%_8%,rgba(255,255,255,0.1),transparent_30%)]" />
+      <div className="absolute inset-0 bg-black/8" />
 
       <div className="relative mx-auto flex min-h-[60vh] max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
         <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Gallery' }]} />

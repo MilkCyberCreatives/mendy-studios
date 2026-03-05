@@ -61,7 +61,7 @@ export default function StoriesPage() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-black/78" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(242,103,34,0.2),transparent_34%),radial-gradient(circle_at_84%_8%,rgba(255,255,255,0.12),transparent_30%)]" />
+          <div className="absolute inset-0 bg-black/8" />
         </div>
 
         <div className="relative mx-auto flex min-h-[58vh] max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
@@ -104,7 +104,7 @@ export default function StoriesPage() {
             {stories.map((story) => (
               <article
                 key={story.slug}
-                className="hover-lift hover-glow overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+                className="hover-lift hover-glow overflow-hidden rounded-2xl border border-white/10 bg-white/5"
               >
                 <Link href={`/stories/${story.slug}`} className="block h-full">
                   <div className="relative aspect-[16/10]">

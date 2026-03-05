@@ -18,7 +18,7 @@ export default function ServiceHero() {
         aria-hidden="true"
       />
       <div className="absolute inset-0 bg-black/65" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_20%,rgba(242,103,34,0.16),transparent_35%),radial-gradient(circle_at_84%_10%,rgba(255,255,255,0.08),transparent_30%)]" />
+      <div className="absolute inset-0 bg-black/8" />
 
       <div className="relative z-10 mx-auto flex min-h-[60vh] w-full max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
         <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />

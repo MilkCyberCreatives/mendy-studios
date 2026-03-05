@@ -40,7 +40,7 @@ export default function MainHeader() {
     <header
       className={`fixed top-0 left-0 w-full z-50 border-b backdrop-blur-xl transition-all duration-300 ${
         scrolled
-          ? 'bg-black/85 border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.35)]'
+          ? 'bg-black/85 border-white/10'
           : 'bg-black/35 border-white/15'
       }`}
     >

@@ -47,7 +47,7 @@ export default function MotionVideoCard({ video, featured = false }: MotionVideo
 
   return (
     <article
-      className={`hover-lift hover-glow group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] shadow-[0_20px_60px_rgba(0,0,0,0.45)] ${
+      className={`hover-lift hover-glow group relative overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a] ${
         featured ? 'lg:col-span-2' : ''
       }`}
     >
@@ -73,9 +73,9 @@ export default function MotionVideoCard({ video, featured = false }: MotionVideo
               className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
               style={{ backgroundImage: `url('${getThumbnailUrl(video.id)}')` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/15" />
+            <div className="absolute inset-0 bg-black/55" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/35 bg-black/55 text-white backdrop-blur-sm transition group-hover:scale-110 group-hover:border-[#F26722] group-hover:text-[#F26722]">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/35 bg-black/65 text-white transition group-hover:scale-110 group-hover:border-[#F26722] group-hover:text-[#F26722]">
                 <FaPlay className="ml-1 text-lg" />
               </span>
             </div>

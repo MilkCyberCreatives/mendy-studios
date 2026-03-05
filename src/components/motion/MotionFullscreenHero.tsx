@@ -45,7 +45,7 @@ export default function MotionFullscreenHero({ streamVideoId }: MotionFullscreen
         )}
 
         <div className="absolute inset-0 bg-black/65" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(242,103,34,0.28),transparent_35%),radial-gradient(circle_at_86%_10%,rgba(255,255,255,0.12),transparent_32%)]" />
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-end gap-6 px-6 pb-16 pt-32">

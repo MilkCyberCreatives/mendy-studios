@@ -62,7 +62,7 @@ export default function ServiceGrid() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: i * 0.1 }}
         >
-          <div className="bg-gradient-to-b from-neutral-900 to-black p-6 rounded-xl shadow hover:shadow-lg transition h-full flex flex-col justify-between">
+          <div className="bg-neutral-900 p-6 rounded-xl border border-white/10 transition h-full flex flex-col justify-between">
             <div>
               <div className="mb-3">{service.icon}</div>
               <h3 className="text-xl font-bold mb-2 text-white">{service.title}</h3>

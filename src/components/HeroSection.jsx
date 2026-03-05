@@ -41,7 +41,7 @@ export default function HeroSection() {
                     alt="Photo 1"
                     width={400}
                     height={500}
-                    className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
+                    className="rounded-xl object-cover aspect-[3/4] w-full"
                     priority
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
@@ -52,7 +52,7 @@ export default function HeroSection() {
                     alt="Photo 4"
                     width={400}
                     height={500}
-                    className="rounded-xl shadow-lg object-cover aspect-square w-full"
+                    className="rounded-xl object-cover aspect-square w-full"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
@@ -65,7 +65,7 @@ export default function HeroSection() {
                     alt="Photo 2"
                     width={400}
                     height={500}
-                    className="rounded-xl shadow-lg object-cover aspect-square w-full"
+                    className="rounded-xl object-cover aspect-square w-full"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
@@ -75,7 +75,7 @@ export default function HeroSection() {
                     alt="Photo 3"
                     width={400}
                     height={500}
-                    className="rounded-xl shadow-lg object-cover aspect-[3/4] w-full"
+                    className="rounded-xl object-cover aspect-[3/4] w-full"
                     sizes="(max-width: 768px) 50vw, 25vw"
                   />
                 </motion.div>
@@ -89,7 +89,7 @@ export default function HeroSection() {
             transition={{ duration: 0.9 }}
             className="order-2 md:order-1 z-10 text-center md:text-left flex flex-col items-center md:items-start"
           >
-            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight drop-shadow-lg">
+            <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
               Photography that Speaks.
             </h1>
             <p className="text-gray-200 text-lg md:text-xl mb-6 max-w-md">
@@ -103,7 +103,7 @@ export default function HeroSection() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
-                    className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                    className="px-8 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-all duration-300 whitespace-nowrap transform hover:-translate-y-1"
                     onClick={() => trackEvent('cta_click', { location: 'hero', target: 'gallery' })}
                   >
                     View Portfolio
@@ -115,7 +115,7 @@ export default function HeroSection() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.68 }}
-                    className="px-8 py-3 border border-white/30 bg-black/35 text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-300 shadow-lg whitespace-nowrap transform hover:-translate-y-1"
+                    className="px-8 py-3 border border-white/30 bg-black/35 text-white font-semibold rounded-lg hover:bg-white hover:text-black transition-all duration-300 whitespace-nowrap transform hover:-translate-y-1"
                     onClick={() => trackEvent('cta_click', { location: 'hero', target: 'motion' })}
                   >
                     Watch Motion Reels

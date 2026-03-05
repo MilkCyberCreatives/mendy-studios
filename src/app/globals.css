@@ -22,10 +22,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--brand-text);
-  background:
-    radial-gradient(circle at 20% 10%, rgba(242, 103, 34, 0.12), transparent 40%),
-    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.06), transparent 35%),
-    var(--brand-bg);
+  background: var(--brand-bg);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -48,7 +45,6 @@ section {
 .hover-lift {
   transition:
     transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.26s ease,
     border-color 0.26s ease,
     background-color 0.26s ease,
     color 0.26s ease;
@@ -56,7 +52,7 @@ section {
 }
 
 .hover-glow {
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 .hover-shine {
@@ -71,12 +67,7 @@ section {
   left: -50%;
   width: 38%;
   height: 280%;
-  background: linear-gradient(
-    120deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.22) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: rgba(255, 255, 255, 0.2);
   transform: rotate(22deg) translateX(-200%);
   transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
   pointer-events: none;
@@ -88,9 +79,8 @@ section {
   }
 
   .hover-glow:hover {
-    box-shadow:
-      0 24px 44px rgba(0, 0, 0, 0.38),
-      0 0 0 1px rgba(242, 103, 34, 0.28);
+    border-color: rgba(242, 103, 34, 0.52);
+    background-color: rgba(255, 255, 255, 0.02);
   }
 
   .hover-shine:hover::after {
@@ -126,7 +116,7 @@ section {
   left: 0;
   width: 100%;
   height: 3px;
-  background: linear-gradient(90deg, #f26722, #ffb084);
+  background: #f26722;
   transform: scaleX(0);
   transform-origin: 0 50%;
   z-index: 80;
@@ -215,7 +205,7 @@ section {
     margin-left: -18px;
     margin-top: -18px;
     border: 1px solid rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(1.5px);
+    backdrop-filter: none;
   }
 
   .custom-cursor-dot.cursor-visible,
@@ -238,6 +228,20 @@ section {
     margin-left: -24px;
     margin-top: -24px;
     border-color: rgba(255, 255, 255, 1);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.08);
   }
+}
+
+[class*='shadow'] {
+  box-shadow: none !important;
+}
+
+[class*='drop-shadow'] {
+  filter: none !important;
+}
+
+[class*='bg-gradient'],
+[class*='radial-gradient'],
+[class*='linear-gradient'] {
+  background-image: none !important;
 }

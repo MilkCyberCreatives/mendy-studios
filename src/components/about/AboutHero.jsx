@@ -18,7 +18,7 @@ export default function AboutHero() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(242,103,34,0.18),transparent_35%),radial-gradient(circle_at_85%_10%,rgba(255,255,255,0.08),transparent_30%)]" />
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
       <div className="relative mx-auto flex min-h-[60vh] max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">

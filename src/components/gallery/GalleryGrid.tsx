@@ -68,7 +68,7 @@ export default function GalleryGrid() {
             <button
               type="button"
               onClick={() => setVisibleCount((prev) => prev + LOAD_COUNT)}
-              className="bg-white text-black px-6 py-3 rounded-lg font-medium shadow hover:bg-gray-200 transition"
+              className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition"
             >
               Load More
             </button>

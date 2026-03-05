@@ -19,7 +19,7 @@ export default function ContactHero() {
           className="object-cover"
         />
         <div className="absolute inset-0 bg-black/75" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(242,103,34,0.25),transparent_35%),radial-gradient(circle_at_85%_5%,rgba(255,255,255,0.12),transparent_30%)]" />
+        <div className="absolute inset-0 bg-black/10" />
       </div>
 
       <div className="relative mx-auto flex min-h-[68vh] max-w-7xl flex-col justify-center gap-8 px-6 pb-14 pt-32">
