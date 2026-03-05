@@ -8,6 +8,7 @@ import {
   FaMapMarkerAlt,
   FaFacebook,
   FaInstagram,
+  FaLinkedinIn,
   FaWhatsapp,
   FaClock,
 } from 'react-icons/fa';
@@ -122,6 +123,14 @@ export default function ContactDetailsSection() {
                 className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
               >
                 <FaInstagram />
+              </a>
+              <a
+                href={SITE.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
+              >
+                <FaLinkedinIn />
               </a>
               <a
                 href={SITE.socials.whatsapp}
