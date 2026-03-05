@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { TbBrandThreads } from 'react-icons/tb';
 import { trackEvent } from '../lib/marketing';
+import { SITE } from '../lib/seo';
 
 export default function HeroSection() {
   const imageAnimations = {
@@ -125,7 +126,9 @@ export default function HeroSection() {
                 transition={{ delay: 0.8 }}
               >
                 <a
-                  href="https://www.facebook.com/MendyStudios"
+                  href={SITE.socials.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:text-blue-400 transition-colors duration-300"
                   aria-label="Facebook"
                   onClick={() => trackEvent('social_click', { platform: 'facebook', location: 'hero' })}
@@ -134,6 +137,8 @@ export default function HeroSection() {
                 </a>
                 <a
                   href="https://x.com/mendystudios"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:text-black transition-colors duration-300"
                   aria-label="X (Twitter)"
                   onClick={() => trackEvent('social_click', { platform: 'x', location: 'hero' })}
@@ -141,7 +146,9 @@ export default function HeroSection() {
                   <FaTwitter size={20} />
                 </a>
                 <a
-                  href="https://www.instagram.com/mendystudios/"
+                  href={SITE.socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:text-pink-500 transition-colors duration-300"
                   aria-label="Instagram"
                   onClick={() => trackEvent('social_click', { platform: 'instagram', location: 'hero' })}
@@ -149,7 +156,9 @@ export default function HeroSection() {
                   <FaInstagram size={20} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/company/mendy-studios"
+                  href={SITE.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:text-blue-500 transition-colors duration-300"
                   aria-label="LinkedIn"
                   onClick={() => trackEvent('social_click', { platform: 'linkedin', location: 'hero' })}
@@ -158,6 +167,8 @@ export default function HeroSection() {
                 </a>
                 <a
                   href="https://www.threads.com/@mendystudios"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-white hover:text-gray-400 transition-colors duration-300"
                   aria-label="Threads"
                   onClick={() => trackEvent('social_click', { platform: 'threads', location: 'hero' })}

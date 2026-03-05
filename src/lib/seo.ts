@@ -34,7 +34,7 @@ export const SITE = {
   socials: {
     facebook: "https://www.facebook.com/MendyStudios",
     instagram: "https://www.instagram.com/mendystudios",
-    linkedin: "https://www.linkedin.com/company/mendystudios",
+    linkedin: "https://www.linkedin.com/company/mendy-studios",
     whatsapp: "https://wa.me/27732785349",
     youtube: "https://www.youtube.com/@mendystudios",
   },

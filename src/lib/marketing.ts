@@ -1,4 +1,5 @@
 export type MarketingEventParams = Record<string, string | number | boolean | undefined>;
+const linkedInConversionId = Number(process.env.NEXT_PUBLIC_LINKEDIN_CONVERSION_ID);
 
 declare global {
   interface Window {
@@ -32,7 +33,9 @@ export function trackLead(channel: string, context: string) {
 
   trackEvent("generate_lead", params);
   window.fbq?.("track", "Lead", params);
-  window.lintrk?.("track", { conversion_id: 1 });
+  if (Number.isFinite(linkedInConversionId) && linkedInConversionId > 0) {
+    window.lintrk?.("track", { conversion_id: linkedInConversionId });
+  }
   window.ttq?.track?.("Contact", params);
 }
 
