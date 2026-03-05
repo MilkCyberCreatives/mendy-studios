@@ -12,6 +12,13 @@ type LeadPayload = {
   page?: string;
 };
 
+type DeliveryChannel = 'smtp' | 'webhook' | 'resend';
+type DeliveryResult = {
+  sent: boolean;
+  channel: DeliveryChannel;
+  error?: string;
+};
+
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function sanitize(value: unknown) {
@@ -46,34 +53,106 @@ function buildLeadRecord(payload: LeadPayload, request: Request) {
   };
 }
 
-async function sendWebhook(lead: ReturnType<typeof buildLeadRecord>) {
+async function sendSmtpEmail(lead: ReturnType<typeof buildLeadRecord>): Promise<DeliveryResult> {
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASSWORD;
+  const toEmail = process.env.LEAD_TO_EMAIL || SITE.email;
+
+  if (!host || !user || !pass || !toEmail) {
+    return { sent: false, channel: 'smtp' };
+  }
+
+  const configuredPort = Number(process.env.SMTP_PORT || 465);
+  const port = Number.isFinite(configuredPort) && configuredPort > 0 ? configuredPort : 465;
+  const secure =
+    process.env.SMTP_SECURE?.toLowerCase() === 'true' ||
+    (!process.env.SMTP_SECURE && port === 465);
+  const fromEmail = process.env.LEAD_FROM_EMAIL || `Mendy Studios Leads <${user}>`;
+
+  const text = [
+    `New lead from ${lead.formId}`,
+    `Name: ${lead.name}`,
+    `Email: ${lead.email}`,
+    `Phone: ${lead.phone || 'Not provided'}`,
+    `Service: ${lead.service || 'Not provided'}`,
+    `Location: ${lead.location || 'Not provided'}`,
+    `Page: ${lead.page || 'Not provided'}`,
+    '',
+    'Message:',
+    lead.message,
+  ].join('\n');
+
+  try {
+    const { default: nodemailer } = await import('nodemailer');
+    const transporter = nodemailer.createTransport({
+      host,
+      port,
+      secure,
+      auth: {
+        user,
+        pass,
+      },
+    });
+
+    await transporter.sendMail({
+      from: fromEmail,
+      to: [toEmail],
+      subject: `New lead: ${lead.name} (${lead.formId})`,
+      text,
+      replyTo: lead.email,
+    });
+
+    return { sent: true, channel: 'smtp' };
+  } catch (error) {
+    return {
+      sent: false,
+      channel: 'smtp',
+      error: error instanceof Error ? error.message : 'SMTP delivery failed',
+    };
+  }
+}
+
+async function sendWebhook(lead: ReturnType<typeof buildLeadRecord>): Promise<DeliveryResult> {
   const webhookUrl = process.env.LEAD_WEBHOOK_URL;
 
   if (!webhookUrl) {
-    return { sent: false, channel: 'webhook' as const };
+    return { sent: false, channel: 'webhook' };
   }
 
-  const response = await fetch(webhookUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(lead),
-  });
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(lead),
+    });
 
-  if (!response.ok) {
-    throw new Error(`Webhook delivery failed with status ${response.status}`);
+    if (!response.ok) {
+      return {
+        sent: false,
+        channel: 'webhook',
+        error: `Webhook delivery failed with status ${response.status}`,
+      };
+    }
+
+    return { sent: true, channel: 'webhook' };
+  } catch (error) {
+    return {
+      sent: false,
+      channel: 'webhook',
+      error: error instanceof Error ? error.message : 'Webhook delivery failed',
+    };
   }
-
-  return { sent: true, channel: 'webhook' as const };
 }
 
-async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>) {
+async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>): Promise<DeliveryResult> {
   const resendKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.LEAD_TO_EMAIL;
 
   if (!resendKey || !toEmail) {
-    return { sent: false, channel: 'resend' as const };
+    return { sent: false, channel: 'resend' };
   }
 
   const fromEmail = process.env.LEAD_FROM_EMAIL || 'Leads <onboarding@resend.dev>';
@@ -91,26 +170,38 @@ async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>) {
     lead.message,
   ].join('\n');
 
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${resendKey}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      from: fromEmail,
-      to: [toEmail],
-      subject: `New lead: ${lead.name} (${lead.formId})`,
-      text,
-      reply_to: lead.email,
-    }),
-  });
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: fromEmail,
+        to: [toEmail],
+        subject: `New lead: ${lead.name} (${lead.formId})`,
+        text,
+        reply_to: lead.email,
+      }),
+    });
 
-  if (!response.ok) {
-    throw new Error(`Resend delivery failed with status ${response.status}`);
+    if (!response.ok) {
+      return {
+        sent: false,
+        channel: 'resend',
+        error: `Resend delivery failed with status ${response.status}`,
+      };
+    }
+
+    return { sent: true, channel: 'resend' };
+  } catch (error) {
+    return {
+      sent: false,
+      channel: 'resend',
+      error: error instanceof Error ? error.message : 'Resend delivery failed',
+    };
   }
-
-  return { sent: true, channel: 'resend' as const };
 }
 
 export async function POST(request: Request) {
@@ -136,7 +227,11 @@ export async function POST(request: Request) {
 
     const lead = buildLeadRecord(payload, request);
 
-    const deliveries = await Promise.allSettled([sendWebhook(lead), sendResendEmail(lead)]);
+    const deliveries = await Promise.allSettled([
+      sendSmtpEmail(lead),
+      sendWebhook(lead),
+      sendResendEmail(lead),
+    ]);
     const sentChannels = deliveries.flatMap((result) => {
       if (result.status !== 'fulfilled' || !result.value.sent) {
         return [];
@@ -144,11 +239,29 @@ export async function POST(request: Request) {
       return [result.value.channel];
     });
 
+    const channelErrors = deliveries.flatMap((result) => {
+      if (result.status !== 'fulfilled' || !result.value.error) {
+        return [];
+      }
+      return [`${result.value.channel}: ${result.value.error}`];
+    });
+
     if (sentChannels.length === 0) {
-      console.info('[lead] captured without external integration', {
-        lead,
-        fallback: `Configure LEAD_WEBHOOK_URL or RESEND_API_KEY + LEAD_TO_EMAIL for delivery to ${SITE.email}.`,
+      console.error('[lead] submission could not be delivered', {
+        formId: lead.formId,
+        email: lead.email,
+        channels: channelErrors,
+        fallback:
+          'Configure SMTP_HOST/SMTP_USER/SMTP_PASSWORD and LEAD_TO_EMAIL, or LEAD_WEBHOOK_URL, or RESEND_API_KEY.',
       });
+
+      return NextResponse.json(
+        {
+          ok: false,
+          errors: ['Unable to submit your message right now. Please try again shortly.'],
+        },
+        { status: 502 }
+      );
     }
 
     return NextResponse.json({ ok: true, channels: sentChannels }, { status: 200 });

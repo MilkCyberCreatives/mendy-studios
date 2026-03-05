@@ -12,7 +12,7 @@ export const SITE = {
   legalName: "Mendy Studios",
   domain: "mendystudios.co.za",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.mendystudios.co.za",
-  email: "info@mendystudios.co.za",
+  email: "bookings@mendystudios.co.za",
   phone: "+27 73 278 5349",
   phoneHref: "tel:+27732785349",
   logo: "/mendy-studios-logo.svg",

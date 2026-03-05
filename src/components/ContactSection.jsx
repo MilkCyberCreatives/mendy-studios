@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { SITE } from '../lib/seo';
 
 export default function ContactSection() {
   return (
@@ -28,7 +29,9 @@ export default function ContactSection() {
                 <FaPhoneAlt className="text-[#F26722] text-xl" />
                 <div>
                   <p className="text-sm text-gray-400">Phone</p>
-                  <p className="text-lg font-medium">+27 73 278 5349</p>
+                  <a href={SITE.phoneHref} className="text-lg font-medium hover:text-[#F26722] transition">
+                    {SITE.phone}
+                  </a>
                 </div>
               </div>
             </div>
@@ -38,7 +41,12 @@ export default function ContactSection() {
                 <FaEnvelope className="text-[#F26722] text-xl" />
                 <div>
                   <p className="text-sm text-gray-400">Email</p>
-                  <p className="text-lg font-medium">info@mendystudios.co.za</p>
+                  <a
+                    href={`mailto:${SITE.email}`}
+                    className="text-lg font-medium hover:text-[#F26722] transition"
+                  >
+                    {SITE.email}
+                  </a>
                 </div>
               </div>
             </div>
