@@ -28,7 +28,7 @@ export default function ContactSection() {
                 <FaPhoneAlt className="text-[#F26722] text-xl" />
                 <div>
                   <p className="text-sm text-gray-400">Phone</p>
-                  <p className="text-lg font-medium">+27 72 345 6789</p>
+                  <p className="text-lg font-medium">+27 73 278 5349</p>
                 </div>
               </div>
             </div>
@@ -111,3 +111,4 @@ export default function ContactSection() {
     </section>
   );
 }
+

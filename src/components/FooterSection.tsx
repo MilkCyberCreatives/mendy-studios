@@ -84,7 +84,6 @@ export default function FooterSection() {
           <Link href="/about" className="hover:text-white">About</Link>
           <Link href="/services" className="hover:text-white">Services</Link>
           <Link href="/motion" className="hover:text-white">Motion</Link>
-          <Link href="/locations" className="hover:text-white">Areas</Link>
           <Link href="/gallery" className="hover:text-white">Gallery</Link>
           <Link href="/stories" className="hover:text-white">Stories</Link>
           <Link href="/contact" className="hover:text-white">Contact</Link>

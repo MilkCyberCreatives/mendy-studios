@@ -1,14 +1,19 @@
-// src/app/robots.ts
-import type { MetadataRoute } from "next";
-import { SITE } from "../lib/seo";
+import type { MetadataRoute } from 'next';
+import { SITE } from '../lib/seo';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-      disallow: ["/api/", "/admin"],
-    },
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/', '/admin'],
+      },
+      {
+        userAgent: ['GPTBot', 'Google-Extended', 'CCBot', 'PerplexityBot'],
+        allow: '/',
+      },
+    ],
     sitemap: `${SITE.url}/sitemap.xml`,
     host: SITE.url,
   };

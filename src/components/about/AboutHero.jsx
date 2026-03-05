@@ -1,17 +1,21 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export default function AboutHero() {
   return (
-    <section className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/about/hero-bg.jpg')" }}
-        aria-hidden="true"
-      >
+    <section data-reveal className="relative h-[60vh] w-full flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0" aria-hidden="true">
+        <Image
+          src="/images/about/hero-bg.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
         <div className="absolute inset-0 bg-black/50" />
       </div>
 

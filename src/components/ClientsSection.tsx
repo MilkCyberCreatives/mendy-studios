@@ -17,13 +17,14 @@ const clients = [
 
 export default function ClientsSection() {
   return (
-    <section className="bg-black/95 py-20 px-6">
+    <section data-reveal className="bg-black/95 py-24 px-6">
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
           className="text-3xl font-bold text-white mb-4"
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
         >
           Our <span className="text-[#F26722]">Clients</span>
         </motion.h2>
@@ -32,8 +33,9 @@ export default function ClientsSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
         >
-          We’re trusted by brands, studios, and individuals across South Africa.
+          We&apos;re trusted by brands, studios, and individuals across South Africa.
         </motion.p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 items-center justify-center">
@@ -44,6 +46,7 @@ export default function ClientsSection() {
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: idx * 0.1 }}
+              viewport={{ once: true }}
             >
               <Image
                 src={client.logo}

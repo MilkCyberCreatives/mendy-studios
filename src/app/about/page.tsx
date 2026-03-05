@@ -1,16 +1,31 @@
-'use client';
-
-import React from 'react';
-import MainHeader from '../../components/MainHeader';
+import type { Metadata } from 'next';
 import AboutHero from '../../components/about/AboutHero';
 import AboutIntro from '../../components/about/AboutIntro';
 import WhyChooseUs from '../../components/about/WhyChooseUs';
 import FooterSection from '../../components/FooterSection';
+import StructuredData from '../../components/StructuredData';
+import { createPageMetadata, getBreadcrumbSchema } from '../../lib/seo';
+
+export const metadata: Metadata = createPageMetadata({
+  title: 'About',
+  description:
+    'Learn about Mendy Studios, a Midrand-based photography and videography studio serving Gauteng and South Africa.',
+  path: '/about',
+  keywords: ['about Mendy Studios', 'Midrand photography studio', 'South African videography team'],
+});
 
 export default function AboutPage() {
   return (
     <>
-      <MainHeader />
+      <StructuredData
+        id="schema-about-breadcrumb"
+        data={
+          getBreadcrumbSchema([
+            { name: 'Home', path: '/' },
+            { name: 'About', path: '/about' },
+          ])
+        }
+      />
       <AboutHero />
       <AboutIntro />
       <WhyChooseUs />
@@ -18,24 +33,3 @@ export default function AboutPage() {
     </>
   );
 }
-
-
-// src/app/about/page.tsx
-// 'use client';
-
-// import React from 'react';
-// import MainHeader from '@/components/MainHeader';
-// import AboutHero from '@/components/about/AboutHero';
-// import AboutIntro from '@/components/about/AboutIntro';
-// import FooterSection from '@/components/FooterSection';
-
-// export default function AboutPage() {
-//   return (
-//     <>
-//       <MainHeader />
-//       <AboutHero />
-//       <AboutIntro />
-//       <FooterSection />
-//     </>
-//   );
-// }

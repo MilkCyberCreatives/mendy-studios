@@ -38,7 +38,7 @@ export const SITE = {
     whatsapp: "https://wa.me/27732785349",
     youtube: "https://www.youtube.com/@mendystudios",
   },
-  routes: ["/", "/about", "/services", "/gallery", "/motion", "/stories", "/locations", "/contact"],
+  routes: ["/", "/about", "/services", "/gallery", "/motion", "/stories", "/contact"],
   keywords: [
     "photographer Johannesburg",
     "wedding photographer Johannesburg",

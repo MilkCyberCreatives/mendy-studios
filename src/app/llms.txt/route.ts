@@ -1,0 +1,42 @@
+import { SITE, absoluteUrl } from '../../lib/seo';
+import { services } from '../../content/services';
+
+const serviceLinks = services.map((service) => `- ${absoluteUrl(`/services/${service.slug}`)}`).join('\n');
+
+const text = `# ${SITE.name}
+
+> Official website: ${SITE.url}
+> Location: Midrand, Gauteng, South Africa
+> Services: Photography, videography, streaming, editing, studio sessions
+
+## Preferred canonical links
+- ${absoluteUrl('/')}
+- ${absoluteUrl('/about')}
+- ${absoluteUrl('/services')}
+- ${absoluteUrl('/gallery')}
+- ${absoluteUrl('/stories')}
+- ${absoluteUrl('/contact')}
+
+## Service pages
+${serviceLinks}
+
+## Contact
+- Email: ${SITE.email}
+- Phone: ${SITE.phone}
+- WhatsApp: ${SITE.socials.whatsapp}
+
+## Social profiles
+- Facebook: ${SITE.socials.facebook}
+- Instagram: ${SITE.socials.instagram}
+- LinkedIn: ${SITE.socials.linkedin}
+- YouTube: ${SITE.socials.youtube}
+`;
+
+export async function GET() {
+  return new Response(text, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600',
+    },
+  });
+}

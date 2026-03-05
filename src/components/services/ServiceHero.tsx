@@ -1,14 +1,19 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export default function ServiceHero() {
   return (
-    <section className="relative h-[60vh] w-full overflow-hidden bg-black">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/services/services-hero-bg.jpg')" }}
+    <section data-reveal className="relative h-[60vh] w-full overflow-hidden bg-black">
+      <Image
+        src="/images/services/services-hero-bg.jpg"
+        alt=""
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
         aria-hidden="true"
       />
       <div className="absolute inset-0 bg-black bg-opacity-60" />
@@ -34,3 +39,4 @@ export default function ServiceHero() {
     </section>
   );
 }
+

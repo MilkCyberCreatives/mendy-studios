@@ -30,26 +30,27 @@ export default function GallerySection() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-black via-[#0d0d0d] to-black py-20 px-4">
+    <section data-reveal className="bg-gradient-to-b from-black via-[#0d0d0d] to-black py-24 px-4 md:px-6">
       <div className="max-w-6xl mx-auto text-center">
         <motion.h2
           className="text-3xl font-bold text-white mb-3"
           initial={{ opacity: 0, y: -10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
+          viewport={{ once: true }}
         >
           Our <span className="text-[#F26722]">Gallery</span>
         </motion.h2>
         <motion.p
-          className="text-gray-400 mb-12"
+          className="text-gray-400 mb-12 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.2 }}
+          viewport={{ once: true }}
         >
-          A curated showcase of moments we’ve captured at Mendy Studios.
+          A curated showcase of moments we&apos;ve captured at Mendy Studios.
         </motion.p>
 
-        {/* Image grid */}
         <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
           {images.map((img, index) => {
             const shapeClass =
@@ -62,10 +63,11 @@ export default function GallerySection() {
             return (
               <motion.div
                 key={img.id}
-                className={`relative overflow-hidden rounded-2xl shadow-md break-inside-avoid transition-transform duration-300 hover:scale-[1.03] cursor-pointer ${shapeClass}`}
+                className={`relative overflow-hidden rounded-2xl shadow-md break-inside-avoid transition-transform duration-300 hover:scale-[1.03] ${shapeClass}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.08 }}
+                viewport={{ once: true }}
                 onClick={() => setSelectedIndex(index)}
               >
                 <Image
@@ -81,9 +83,8 @@ export default function GallerySection() {
         </div>
       </div>
 
-      {/* Lightbox */}
       <AnimatePresence>
-        {selectedIndex !== null && (
+        {selectedIndex !== null ? (
           <motion.div
             className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
             initial={{ opacity: 0 }}
@@ -97,32 +98,33 @@ export default function GallerySection() {
                 fill
                 className="object-contain"
               />
-              {/* Close button */}
+
               <button
                 onClick={() => setSelectedIndex(null)}
                 className="absolute top-4 right-4 text-white text-3xl bg-black/60 p-2 rounded-full"
+                aria-label="Close image preview"
               >
                 <IoClose />
               </button>
 
-              {/* Left arrow */}
               <button
                 onClick={handlePrev}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                aria-label="Previous image"
               >
                 <IoChevronBack />
               </button>
 
-              {/* Right arrow */}
               <button
                 onClick={handleNext}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                aria-label="Next image"
               >
                 <IoChevronForward />
               </button>
             </div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
     </section>
   );

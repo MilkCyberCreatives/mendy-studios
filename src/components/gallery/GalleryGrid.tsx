@@ -1,26 +1,21 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import Thumbnails from 'yet-another-react-lightbox/plugins/thumbnails';
-
-import 'yet-another-react-lightbox/styles.css';
-import 'yet-another-react-lightbox/plugins/thumbnails.css';
+import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5';
 
 const TOTAL_IMAGES = 53;
 const INITIAL_COUNT = 12;
 const LOAD_COUNT = 12;
 
-// Generate gallery image paths
-const allGalleryImages = Array.from({ length: TOTAL_IMAGES }, (_, i) => `/images/gallery/gallery${i + 1}.jpg`);
+const allGalleryImages = Array.from(
+  { length: TOTAL_IMAGES },
+  (_, i) => `/images/gallery/gallery${i + 1}.jpg`
+);
 
-// Shuffle helper
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+  for (let i = shuffled.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
@@ -30,27 +25,29 @@ function shuffleArray<T>(array: T[]): T[] {
 export default function GalleryGrid() {
   const shuffledImages = useMemo(() => shuffleArray(allGalleryImages), []);
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
-  const [index, setIndex] = useState(-1); // Lightbox index
+  const [index, setIndex] = useState(-1);
 
   const visibleImages = shuffledImages.slice(0, visibleCount);
 
-  return (
-    <section className="bg-black py-20 px-4 md:px-6 text-white">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          Captured Moments
-        </h2>
+  const showPrevious = () => {
+    setIndex((current) => (current - 1 + visibleImages.length) % visibleImages.length);
+  };
 
-        {/* Pinterest Masonry Layout */}
+  const showNext = () => {
+    setIndex((current) => (current + 1) % visibleImages.length);
+  };
+
+  return (
+    <section data-reveal className="bg-black py-24 px-4 md:px-6 text-white">
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Captured Moments</h2>
+
         <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
           {visibleImages.map((src, i) => (
-            <motion.div
-              key={i}
-              className="w-full overflow-hidden rounded-xl break-inside-avoid cursor-pointer"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.04 }}
+            <button
+              key={src}
+              type="button"
+              className="group w-full overflow-hidden rounded-xl break-inside-avoid text-left"
               onClick={() => setIndex(i)}
             >
               <Image
@@ -59,41 +56,66 @@ export default function GalleryGrid() {
                 width={600}
                 height={800}
                 loading="lazy"
-                className="w-full h-auto object-cover rounded-xl hover:scale-105 transition-transform duration-300"
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="w-full h-auto object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.03]"
               />
-            </motion.div>
+            </button>
           ))}
         </div>
 
-        {/* Load More Button */}
-        {visibleCount < shuffledImages.length && (
+        {visibleCount < shuffledImages.length ? (
           <div className="text-center mt-10">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setVisibleCount(prev => prev + LOAD_COUNT)}
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => prev + LOAD_COUNT)}
               className="bg-white text-black px-6 py-3 rounded-lg font-medium shadow hover:bg-gray-200 transition"
             >
               Load More
-            </motion.button>
+            </button>
           </div>
-        )}
+        ) : null}
 
-        {/* Lightbox Viewer */}
-        <Lightbox
-          open={index >= 0}
-          close={() => setIndex(-1)}
-          index={index}
-          slides={visibleImages.map((src) => ({ src }))}
-          plugins={[Zoom, Thumbnails]}
-          zoom={{ maxZoomPixelRatio: 2 }}
-          thumbnails={{
-            border: 0,
-            padding: 4,
-            width: 100,
-            height: 70,
-          }}
-        />
+        {index >= 0 ? (
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+            <div className="relative max-w-5xl w-full h-[90vh]">
+              <Image
+                src={visibleImages[index]}
+                alt="Full preview"
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+
+              <button
+                type="button"
+                onClick={() => setIndex(-1)}
+                className="absolute top-4 right-4 text-white text-3xl bg-black/60 p-2 rounded-full"
+                aria-label="Close image preview"
+              >
+                <IoClose />
+              </button>
+
+              <button
+                type="button"
+                onClick={showPrevious}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                aria-label="Previous image"
+              >
+                <IoChevronBack />
+              </button>
+
+              <button
+                type="button"
+                onClick={showNext}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
+                aria-label="Next image"
+              >
+                <IoChevronForward />
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   );

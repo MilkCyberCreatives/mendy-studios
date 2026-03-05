@@ -40,7 +40,7 @@ const services = [
   {
     title: 'Studio Sessions',
     icon: <FaHome size={28} className="text-[#F26722]" />,
-    desc: 'Indoor photo shoots with props and lighting – ideal for branding or lifestyle shots.',
+    desc: 'Indoor photo shoots with props and lighting - ideal for branding or lifestyle shots.',
     link: '/services/studio',
   },
   {
@@ -72,7 +72,7 @@ export default function ServiceGrid() {
             <div className="mt-4">
               <Link href={service.link}>
                 <span className="text-sm text-[#F26722] hover:underline transition">
-                  Learn more →
+                  Learn more {'->'}
                 </span>
               </Link>
             </div>
