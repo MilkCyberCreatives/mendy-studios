@@ -51,6 +51,7 @@ export default function AboutSection() {
               width={600}
               height={800}
               className="rounded-3xl object-cover w-full aspect-[3/4] border border-white/10"
+              quality={60}
               sizes="(max-width: 768px) 50vw, 25vw"
             />
           </motion.div>
@@ -68,6 +69,7 @@ export default function AboutSection() {
               width={600}
               height={800}
               className="rounded-3xl object-cover w-full aspect-[3/4] border border-white/10"
+              quality={60}
               sizes="(max-width: 768px) 50vw, 25vw"
             />
           </motion.div>
@@ -85,6 +87,7 @@ export default function AboutSection() {
               width={1200}
               height={800}
               className="rounded-3xl object-cover w-full aspect-video border border-white/10"
+              quality={60}
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </motion.div>

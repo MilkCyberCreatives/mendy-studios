@@ -20,7 +20,7 @@ export default function ServiceHero() {
       <div className="absolute inset-0 bg-black/65" />
       <div className="absolute inset-0 bg-black/8" />
 
-      <div className="relative z-10 mx-auto flex min-h-[60vh] w-full max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
+      <div className="relative z-10 mx-auto flex min-h-[56vh] w-full max-w-7xl flex-col justify-center gap-2 px-6 pb-10 pt-28">
         <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Services' }]} />
 
         <motion.div
@@ -29,7 +29,7 @@ export default function ServiceHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="mb-2 text-4xl font-bold md:text-5xl">
             Services <span className="text-[#F26722]">We Offer</span>
           </h1>
           <p className="text-lg text-gray-200 max-w-2xl">

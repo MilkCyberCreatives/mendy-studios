@@ -99,7 +99,10 @@ export default function ContactDetailsSection() {
             </div>
             <div className="hover-lift rounded-xl border border-white/10 bg-black/35 p-4">
               <p className="text-xs uppercase tracking-[0.18em] text-[#F9A26E]">Coverage</p>
-              <p className="mt-2 text-sm text-gray-200">Midrand, Johannesburg, Pretoria</p>
+              <p className="mt-2 text-sm text-gray-200">
+                Eastern Cape, Free State, Gauteng, KwaZulu-Natal, Limpopo, Mpumalanga, North
+                West, Northern Cape, Western Cape
+              </p>
             </div>
           </div>
 

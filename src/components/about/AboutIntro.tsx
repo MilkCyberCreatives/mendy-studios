@@ -9,6 +9,7 @@ import {
   FaLightbulb,
   FaHeart,
   FaStar,
+  FaUsers,
 } from 'react-icons/fa';
 
 export default function AboutIntro() {
@@ -138,6 +139,14 @@ export default function AboutIntro() {
               <h4 className="text-xl font-semibold mb-2">Passion</h4>
               <p className="text-gray-300 text-sm">
                 We love what we do - and it shows in every story we help tell visually.
+              </p>
+            </div>
+
+            <div className="bg-white/5 rounded-xl p-6 border border-white/10 hover:ring-2 hover:ring-[#F26722] transition duration-300 text-center">
+              <FaUsers className="text-3xl text-[#F26722] mb-4 mx-auto" />
+              <h4 className="text-xl font-semibold mb-2">Collaboration</h4>
+              <p className="text-gray-300 text-sm">
+                We work closely with every client to ensure each project reflects their vision and goals.
               </p>
             </div>
           </div>

@@ -41,6 +41,7 @@ export default function StoriesSection() {
                     alt={story.title}
                     fill
                     className="object-cover"
+                    quality={62}
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>

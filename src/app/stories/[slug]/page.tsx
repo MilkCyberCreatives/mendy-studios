@@ -95,7 +95,7 @@ export default function StoryDetailPage({ params }: StoryPageProps) {
             ]}
           />
 
-          <div className="mt-5 flex flex-wrap items-center gap-2 text-xs text-gray-300">
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-300">
             <span className="rounded-full border border-white/15 bg-white/8 px-3 py-1">
               {formatDate(story.publishedAt)}
             </span>
@@ -103,8 +103,8 @@ export default function StoryDetailPage({ params }: StoryPageProps) {
               {story.readMinutes} min read
             </span>
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold mt-3 leading-tight">{story.title}</h1>
-          <p className="text-gray-300 mt-4 text-lg">{story.description}</p>
+          <h1 className="mt-1 text-3xl font-bold leading-tight md:text-5xl">{story.title}</h1>
+          <p className="mt-2 text-lg text-gray-300">{story.description}</p>
 
           <div className="relative mt-8 rounded-2xl overflow-hidden border border-white/10 aspect-[16/9]">
             <Image

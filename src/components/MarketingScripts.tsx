@@ -22,9 +22,9 @@ export default function MarketingScripts() {
         <>
           <Script
             src={`https://www.googletagmanager.com/gtag/js?id=${gtagId}`}
-            strategy="afterInteractive"
+            strategy="lazyOnload"
           />
-          <Script id="ga4-config" strategy="afterInteractive">
+          <Script id="ga4-config" strategy="lazyOnload">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
@@ -37,7 +37,7 @@ export default function MarketingScripts() {
       ) : null}
 
       {gtmId ? (
-        <Script id="gtm-config" strategy="afterInteractive">
+        <Script id="gtm-config" strategy="lazyOnload">
           {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -49,7 +49,7 @@ export default function MarketingScripts() {
       ) : null}
 
       {metaPixelId ? (
-        <Script id="meta-pixel" strategy="afterInteractive">
+        <Script id="meta-pixel" strategy="lazyOnload">
           {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -67,7 +67,7 @@ export default function MarketingScripts() {
 
       {linkedInPartnerId ? (
         <>
-          <Script id="linkedin-insight" strategy="afterInteractive">
+          <Script id="linkedin-insight" strategy="lazyOnload">
             {`
               _linkedin_partner_id = '${linkedInPartnerId}';
               window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
@@ -100,7 +100,7 @@ export default function MarketingScripts() {
       ) : null}
 
       {tikTokPixelId ? (
-        <Script id="tiktok-pixel" strategy="afterInteractive">
+        <Script id="tiktok-pixel" strategy="lazyOnload">
           {`
             !function (w, d, t) {
               w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];
@@ -122,7 +122,7 @@ export default function MarketingScripts() {
       ) : null}
 
       {clarityProjectId ? (
-        <Script id="microsoft-clarity" strategy="afterInteractive">
+        <Script id="microsoft-clarity" strategy="lazyOnload">
           {`
             (function(c,l,a,r,i,t,y){
               c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

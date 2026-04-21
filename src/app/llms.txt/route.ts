@@ -14,11 +14,22 @@ const text = `# ${SITE.name}
 - ${absoluteUrl('/about')}
 - ${absoluteUrl('/services')}
 - ${absoluteUrl('/gallery')}
+- ${absoluteUrl('/motion')}
 - ${absoluteUrl('/stories')}
+- ${absoluteUrl('/faqs')}
 - ${absoluteUrl('/contact')}
 
 ## Service pages
 ${serviceLinks}
+
+## Portfolio and discovery pages
+- ${absoluteUrl('/gallery')}
+- ${absoluteUrl('/motion')}
+- ${absoluteUrl('/stories/rss.xml')}
+
+## Coverage and specialties
+- Service area: Midrand, Johannesburg, Pretoria, Gauteng, South Africa
+- Core specialties: weddings, portraits, events, corporate photography, brand videography, livestreaming, editing
 
 ## Contact
 - Email: ${SITE.email}

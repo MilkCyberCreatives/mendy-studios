@@ -13,6 +13,7 @@ const navLinks = [
   { name: 'Motion', href: '/motion' },
   { name: 'Services', href: '/services' },
   { name: 'Stories', href: '/stories' },
+  { name: 'FAQs', href: '/faqs' },
   { name: 'Contact', href: '/contact' },
 ];
 
@@ -22,14 +23,29 @@ export default function MainHeader() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
+    let frameId = 0;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
+      if (frameId) {
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+        const nextScrolled = window.scrollY > 10;
+        setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+      });
     };
 
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {

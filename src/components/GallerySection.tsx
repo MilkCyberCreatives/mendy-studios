@@ -75,6 +75,7 @@ export default function GallerySection() {
                   alt={`Gallery ${img.id}`}
                   fill
                   className="object-cover rounded-2xl"
+                  quality={58}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </motion.div>
@@ -97,6 +98,7 @@ export default function GallerySection() {
                 alt="Full preview"
                 fill
                 className="object-contain"
+                quality={72}
               />
 
               <button

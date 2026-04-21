@@ -1,6 +1,7 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
-import { FaPlayCircle } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 import PageBreadcrumb from '../PageBreadcrumb';
 
 type MotionFullscreenHeroProps = {
@@ -23,7 +24,7 @@ export default function MotionFullscreenHero({ streamVideoId }: MotionFullscreen
   const hasStreamVideo = Boolean(streamVideoId);
 
   return (
-    <section data-reveal className="relative min-h-screen overflow-hidden bg-black text-white">
+    <section data-reveal className="relative min-h-[60vh] overflow-hidden bg-black text-white">
       <div className="absolute inset-0">
         {hasStreamVideo ? (
           <iframe
@@ -48,37 +49,22 @@ export default function MotionFullscreenHero({ streamVideoId }: MotionFullscreen
         <div className="absolute inset-0 bg-black/10" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col justify-end gap-6 px-6 pb-16 pt-32">
-        <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Motion' }]} className="mb-auto" />
+      <div className="relative mx-auto flex min-h-[54vh] max-w-7xl flex-col justify-center gap-1.5 px-6 pb-8 pt-24">
+        <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Motion' }]} />
 
-        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#F26722]/50 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#F9A26E]">
-          <FaPlayCircle />
-          Motion Intro
-        </span>
-
-        <div className="max-w-3xl space-y-4">
-          <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
-            Full-screen motion reel the moment your audience lands.
+        <motion.div
+          className="max-w-4xl"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, ease: 'easeOut' }}
+        >
+          <h1 className="max-w-[12ch] text-3xl font-semibold leading-[1.05] sm:max-w-[14ch] md:max-w-none md:text-4xl">
+            Cinematic motion reels for brands, events, and stories.
           </h1>
-          <p className="max-w-2xl text-base leading-relaxed text-gray-200 md:text-lg">
-            Host your hero video on Cloudflare Stream for fast startup, adaptive delivery, and
-            minimal impact on site performance.
+          <p className="mt-2 max-w-[31ch] text-sm leading-relaxed text-gray-200 md:max-w-2xl md:text-base">
+            Autoplay video storytelling across Midrand, Johannesburg, Pretoria, and Gauteng.
           </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <Link
-            href="#motion-reels"
-            className="hover-lift hover-glow hover-shine inline-flex items-center gap-2 rounded-full bg-[#F26722] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#d9561b]"
-          >
-            Explore More Reels
-          </Link>
-          {!hasStreamVideo ? (
-            <span className="rounded-full border border-white/20 bg-black/40 px-4 py-2 text-xs text-gray-200">
-              Set `NEXT_PUBLIC_MOTION_STREAM_VIDEO_ID` to show your uploaded video.
-            </span>
-          ) : null}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

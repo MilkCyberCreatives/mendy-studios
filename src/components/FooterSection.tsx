@@ -86,6 +86,7 @@ export default function FooterSection() {
           <Link href="/motion" className="hover:text-white">Motion</Link>
           <Link href="/gallery" className="hover:text-white">Gallery</Link>
           <Link href="/stories" className="hover:text-white">Stories</Link>
+          <Link href="/faqs" className="hover:text-white">FAQs</Link>
           <Link href="/contact" className="hover:text-white">Contact</Link>
         </motion.div>
 

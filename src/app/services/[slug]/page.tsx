@@ -100,9 +100,9 @@ export default function ServiceDetailPage({ params }: ServicePageProps) {
                   { label: service.title },
                 ]}
               />
-              <h1 className="text-4xl md:text-5xl font-bold mt-4">{service.title}</h1>
-              <p className="text-gray-300 mt-4 text-lg">{service.summary}</p>
-              <div className="flex flex-wrap gap-2 mt-5">
+              <h1 className="mt-1 text-4xl font-bold md:text-5xl">{service.title}</h1>
+              <p className="mt-2 text-lg text-gray-300">{service.summary}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
                 {service.tags.map((tag) => (
                   <span key={tag} className="text-xs px-2 py-1 rounded-full bg-white/10 text-gray-200">
                     {tag}

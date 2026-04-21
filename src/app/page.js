@@ -1,12 +1,7 @@
+import dynamic from 'next/dynamic';
 import HeroSection from '../components/HeroSection';
-import AboutSection from '../components/AboutSection';
-import GallerySection from '../components/GallerySection';
-import ServicesSection from '../components/ServicesSection';
 import StoriesSection from '../components/StoriesSection';
 import TrustSignalsSection from '../components/TrustSignalsSection';
-import ContactCTASection from '../components/ContactCTASection';
-import ClientsSection from '../components/ClientsSection';
-import FooterSection from '../components/FooterSection';
 import StructuredData from '../components/StructuredData';
 import {
   createPageMetadata,
@@ -15,6 +10,13 @@ import {
   getBookingProcessSchema,
   getServiceSchema,
 } from '../lib/seo';
+
+const AboutSection = dynamic(() => import('../components/AboutSection'));
+const GallerySection = dynamic(() => import('../components/GallerySection'));
+const ServicesSection = dynamic(() => import('../components/ServicesSection'));
+const ContactCTASection = dynamic(() => import('../components/ContactCTASection'));
+const ClientsSection = dynamic(() => import('../components/ClientsSection'));
+const FooterSection = dynamic(() => import('../components/FooterSection'));
 
 export const metadata = createPageMetadata({
   title: 'Professional Photography & Videography in Gauteng',

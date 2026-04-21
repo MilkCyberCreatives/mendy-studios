@@ -6,6 +6,14 @@ import { usePathname } from 'next/navigation';
 const INTERACTIVE_SELECTOR =
   "a, button, [role='button'], input, textarea, select, summary, label";
 const REVEAL_READY_CLASS = 'reveal-enabled';
+type NavigatorConnection = {
+  saveData?: boolean;
+};
+type NavigatorWithConnection = Navigator & {
+  connection?: NavigatorConnection;
+  mozConnection?: NavigatorConnection;
+  webkitConnection?: NavigatorConnection;
+};
 
 export default function GlobalUXEffects() {
   const pathname = usePathname();
@@ -17,15 +25,25 @@ export default function GlobalUXEffects() {
   const [cursorVisible, setCursorVisible] = useState(false);
 
   useEffect(() => {
+    let frameId = 0;
+
     const onScroll = () => {
-      if (!progressRef.current) {
+      if (frameId) {
         return;
       }
 
-      const doc = document.documentElement;
-      const total = doc.scrollHeight - doc.clientHeight;
-      const progress = total > 0 ? window.scrollY / total : 0;
-      progressRef.current.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+      frameId = window.requestAnimationFrame(() => {
+        frameId = 0;
+
+        if (!progressRef.current) {
+          return;
+        }
+
+        const doc = document.documentElement;
+        const total = doc.scrollHeight - doc.clientHeight;
+        const progress = total > 0 ? window.scrollY / total : 0;
+        progressRef.current.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+      });
     };
 
     onScroll();
@@ -33,6 +51,9 @@ export default function GlobalUXEffects() {
     window.addEventListener('resize', onScroll);
 
     return () => {
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onScroll);
     };
@@ -40,9 +61,12 @@ export default function GlobalUXEffects() {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(pointer: fine)');
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const nav = navigator as NavigatorWithConnection;
+    const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
 
     const syncPointerMode = () => {
-      const enabled = mediaQuery.matches;
+      const enabled = mediaQuery.matches && !motionQuery.matches && !connection?.saveData;
       setIsPointerFine(enabled);
       document.body.classList.toggle('cursor-enabled', enabled);
     };
@@ -50,24 +74,31 @@ export default function GlobalUXEffects() {
     syncPointerMode();
     if (typeof mediaQuery.addEventListener === 'function') {
       mediaQuery.addEventListener('change', syncPointerMode);
+      motionQuery.addEventListener('change', syncPointerMode);
     } else {
       mediaQuery.addListener(syncPointerMode);
+      motionQuery.addListener(syncPointerMode);
     }
 
     return () => {
       if (typeof mediaQuery.removeEventListener === 'function') {
         mediaQuery.removeEventListener('change', syncPointerMode);
+        motionQuery.removeEventListener('change', syncPointerMode);
       } else {
         mediaQuery.removeListener(syncPointerMode);
+        motionQuery.removeListener(syncPointerMode);
       }
       document.body.classList.remove('cursor-enabled');
     };
   }, []);
 
   useEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const nav = navigator as NavigatorWithConnection;
+    const connection = nav.connection || nav.mozConnection || nav.webkitConnection;
     const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
-    if (!nodes.length) {
+    if (!nodes.length || motionQuery.matches || connection?.saveData) {
       return;
     }
 

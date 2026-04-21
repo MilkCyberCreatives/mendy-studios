@@ -64,16 +64,12 @@ export default function StoriesPage() {
           <div className="absolute inset-0 bg-black/8" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[58vh] max-w-7xl flex-col justify-center gap-6 px-6 pb-12 pt-32">
+        <div className="relative mx-auto flex min-h-[54vh] max-w-7xl flex-col justify-center gap-2 px-6 pb-10 pt-28">
           <PageBreadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Stories' }]} />
-
-          <span className="inline-flex w-fit rounded-full border border-[#F26722]/45 bg-[#F26722]/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[#F9A26E]">
-            Mendy Studios Journal
-          </span>
 
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white">Stories and Practical Guides</h1>
-            <p className="mt-4 max-w-3xl text-gray-200">
+            <p className="mt-2 max-w-3xl text-gray-200">
               Planning guides, production insights, and practical ideas from Mendy Studios for
               better shoots and stronger visual storytelling.
             </p>

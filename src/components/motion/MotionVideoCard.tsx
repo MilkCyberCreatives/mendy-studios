@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { FaExternalLinkAlt, FaPlay } from 'react-icons/fa';
+import { useRef } from 'react';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import { trackEvent } from '../../lib/marketing';
 import type { MotionVideo } from '../../content/motion-videos';
 
@@ -10,16 +10,17 @@ type MotionVideoCardProps = {
   featured?: boolean;
 };
 
-function getEmbedUrl(videoId: string, autoplay = false) {
+function getEmbedUrl(videoId: string) {
   const params = new URLSearchParams({
     rel: '0',
     modestbranding: '1',
     playsinline: '1',
+    autoplay: '1',
+    mute: '1',
+    loop: '1',
+    playlist: videoId,
+    controls: '1',
   });
-
-  if (autoplay) {
-    params.set('autoplay', '1');
-  }
 
   return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
 }
@@ -33,10 +34,14 @@ function getThumbnailUrl(videoId: string) {
 }
 
 export default function MotionVideoCard({ video, featured = false }: MotionVideoCardProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const hasTrackedPlayback = useRef(false);
 
-  const handleLoadVideo = () => {
-    setIsLoaded(true);
+  const handleVideoLoad = () => {
+    if (hasTrackedPlayback.current) {
+      return;
+    }
+
+    hasTrackedPlayback.current = true;
     trackEvent('video_play', {
       page: 'motion',
       video_id: video.id,
@@ -52,35 +57,21 @@ export default function MotionVideoCard({ video, featured = false }: MotionVideo
       }`}
     >
       <div className="relative aspect-video bg-black">
-        {isLoaded ? (
-          <iframe
-            src={getEmbedUrl(video.id, true)}
-            title={video.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-            className="absolute inset-0 h-full w-full"
-          />
-        ) : (
-          <button
-            type="button"
-            onClick={handleLoadVideo}
-            aria-label={`Play ${video.title}`}
-            className="absolute inset-0 h-full w-full text-left"
-          >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={{ backgroundImage: `url('${getThumbnailUrl(video.id)}')` }}
-            />
-            <div className="absolute inset-0 bg-black/55" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/35 bg-black/65 text-white transition group-hover:scale-110 group-hover:border-[#F26722] group-hover:text-[#F26722]">
-                <FaPlay className="ml-1 text-lg" />
-              </span>
-            </div>
-          </button>
-        )}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25 transition-transform duration-500 group-hover:scale-105"
+          style={{ backgroundImage: `url('${getThumbnailUrl(video.id)}')` }}
+        />
+        <iframe
+          src={getEmbedUrl(video.id)}
+          title={video.title}
+          loading={featured ? 'eager' : 'lazy'}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+          className="absolute inset-0 h-full w-full"
+          onLoad={handleVideoLoad}
+        />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
       </div>
 
       <div className="space-y-3 p-5 md:p-6">

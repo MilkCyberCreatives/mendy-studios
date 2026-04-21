@@ -6,17 +6,25 @@ import StructuredData from '../../components/StructuredData';
 import MotionFullscreenHero from '../../components/motion/MotionFullscreenHero';
 import MotionVideoCard from '../../components/motion/MotionVideoCard';
 import { motionVideos } from '../../content/motion-videos';
-import { absoluteUrl, createPageMetadata, getBreadcrumbSchema } from '../../lib/seo';
+import {
+  SITE,
+  absoluteUrl,
+  createPageMetadata,
+  getBreadcrumbSchema,
+  getFAQSchema,
+} from '../../lib/seo';
 
 export const metadata: Metadata = createPageMetadata({
-  title: 'Motion',
+  title: 'Motion Videography Portfolio in Gauteng',
   description:
-    'Explore motion reels and cinematic video highlights by Mendy Studios for brands, events, and storytelling projects.',
+    'Explore autoplay motion reels and cinematic videography by Mendy Studios for brands, events, and storytelling projects across Midrand, Johannesburg, Pretoria, and Gauteng.',
   path: '/motion',
   keywords: [
+    'motion videography Gauteng',
     'video production Midrand',
-    'motion reels Gauteng',
-    'cinematic videography Johannesburg',
+    'event videographer Johannesburg',
+    'brand video production Pretoria',
+    'cinematic videography Gauteng',
   ],
   type: 'website',
 });
@@ -25,28 +33,102 @@ const featuredVideo = motionVideos.find((video) => video.featured) || motionVide
 const standardVideos = motionVideos.filter((video) => video.id !== featuredVideo.id);
 const streamVideoId = process.env.NEXT_PUBLIC_MOTION_STREAM_VIDEO_ID;
 
-const motionListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'Mendy Studios Motion Portfolio',
-  itemListElement: motionVideos.map((video, index) => ({
-    '@type': 'ListItem',
-    position: index + 1,
-    item: {
-      '@type': 'VideoObject',
-      name: video.title,
-      description: video.description,
-      thumbnailUrl: `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`,
-      embedUrl: `https://www.youtube.com/embed/${video.id}`,
-      contentUrl: `https://www.youtube.com/watch?v=${video.id}`,
-      url: absoluteUrl(`/motion#video-${video.id}`),
-      publisher: {
-        '@type': 'Organization',
-        name: 'Mendy Studios',
-      },
+function toIsoDuration(duration: string) {
+  const [minutes, seconds] = duration.split(':').map(Number);
+
+  if (Number.isNaN(minutes) || Number.isNaN(seconds)) {
+    return undefined;
+  }
+
+  return `PT${minutes}M${seconds}S`;
+}
+
+const motionVideoObjects = motionVideos.map((video) => ({
+  '@type': 'VideoObject',
+  '@id': absoluteUrl(`/motion#video-${video.id}`),
+  name: video.title,
+  description: video.description,
+  thumbnailUrl: [`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`],
+  embedUrl: `https://www.youtube.com/embed/${video.id}`,
+  contentUrl: `https://www.youtube.com/watch?v=${video.id}`,
+  url: absoluteUrl(`/motion#video-${video.id}`),
+  duration: toIsoDuration(video.duration),
+  genre: video.category,
+  inLanguage: 'en-ZA',
+  isFamilyFriendly: true,
+  keywords: [video.category, ...SITE.keywords.slice(0, 4)],
+  contentLocation: {
+    '@type': 'Place',
+    name: 'Gauteng, South Africa',
+  },
+  publisher: {
+    '@type': 'Organization',
+    '@id': `${absoluteUrl('/')}#organization`,
+    name: 'Mendy Studios',
+    url: SITE.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: absoluteUrl(SITE.logo),
     },
-  })),
+  },
+  potentialAction: {
+    '@type': 'WatchAction',
+    target: [
+      absoluteUrl(`/motion#video-${video.id}`),
+      `https://www.youtube.com/watch?v=${video.id}`,
+    ],
+  },
+}));
+
+const motionCollectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${absoluteUrl('/motion')}#webpage`,
+  name: 'Mendy Studios Motion Portfolio',
+  description:
+    'Autoplay motion reels and cinematic video storytelling from Mendy Studios for brands, events, and corporate campaigns in Gauteng.',
+  url: absoluteUrl('/motion'),
+  inLanguage: 'en-ZA',
+  isPartOf: {
+    '@type': 'WebSite',
+    '@id': `${absoluteUrl('/')}#website`,
+  },
+  about: {
+    '@type': 'Service',
+    name: 'Motion videography and brand storytelling',
+    provider: {
+      '@type': 'Organization',
+      '@id': `${absoluteUrl('/')}#organization`,
+    },
+    areaServed: ['Midrand', 'Johannesburg', 'Pretoria', 'Gauteng', 'South Africa'],
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: motionVideoObjects.map((video, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      item: video,
+    })),
+  },
 };
+
+const motionFaqSchema = getFAQSchema([
+  {
+    question: 'What types of motion projects does Mendy Studios produce?',
+    answer:
+      'Mendy Studios produces event highlights, corporate videos, brand films, and cinematic reels for campaigns, launches, and storytelling projects.',
+  },
+  {
+    question: 'Where does Mendy Studios offer motion videography services?',
+    answer:
+      'Mendy Studios is based in Midrand and serves Johannesburg, Pretoria, Gauteng, and selected projects across South Africa.',
+  },
+  {
+    question: 'Can I book both photography and motion coverage for the same project?',
+    answer:
+      'Yes, Mendy Studios can combine photography and motion videography coverage for events, campaigns, and branded productions.',
+  },
+]);
 
 export default function MotionPage() {
   return (
@@ -60,7 +142,9 @@ export default function MotionPage() {
           ])
         }
       />
-      <StructuredData id="schema-motion-videos" data={motionListSchema} />
+      <StructuredData id="schema-motion-collection" data={motionCollectionSchema} />
+      <StructuredData id="schema-motion-videos" data={motionVideoObjects} />
+      <StructuredData id="schema-motion-faq" data={motionFaqSchema} />
 
       <MotionFullscreenHero streamVideoId={streamVideoId} />
 
@@ -72,10 +156,10 @@ export default function MotionPage() {
                 <FaBolt />
                 Motion Portfolio
               </span>
-              <h2 className="text-3xl font-semibold md:text-4xl">More Motion Projects</h2>
+              <h2 className="text-3xl font-semibold md:text-4xl">Autoplay Motion Projects</h2>
               <p className="max-w-2xl text-gray-300 leading-relaxed">
-                Click any project card to load and play instantly. Videos are lazy-loaded to keep this
-                page and your full site fast.
+                Browse cinematic event reels, corporate storytelling, and brand-led edits that begin
+                playing automatically while keeping the page performant.
               </p>
             </div>
             <Link

@@ -38,7 +38,7 @@ export const SITE = {
     whatsapp: "https://wa.me/27732785349",
     youtube: "https://www.youtube.com/@mendystudios",
   },
-  routes: ["/", "/about", "/services", "/gallery", "/motion", "/stories", "/contact"],
+  routes: ["/", "/about", "/services", "/gallery", "/motion", "/stories", "/faqs", "/contact"],
   keywords: [
     "photographer Johannesburg",
     "wedding photographer Johannesburg",
@@ -148,12 +148,30 @@ export function getOrganizationSchema() {
     "@type": "Organization",
     "@id": `${absoluteUrl("/")}#organization`,
     name: SITE.legalName,
+    description: DEFAULT_DESCRIPTION,
     url: SITE.url,
     email: SITE.email,
     telephone: SITE.phone,
     logo: absoluteUrl(SITE.logo),
     sameAs: Object.values(SITE.socials),
     areaServed: ["Gauteng", "South Africa"],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: SITE.address.locality,
+      addressRegion: SITE.address.region,
+      addressCountry: SITE.address.country,
+    },
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "customer support",
+        telephone: SITE.phone,
+        email: SITE.email,
+        areaServed: ["South Africa"],
+        availableLanguage: ["en"],
+      },
+    ],
+    knowsAbout: SITE.keywords.slice(0, 10),
   };
 }
 
@@ -164,6 +182,7 @@ export function getLocalBusinessSchema() {
     "@id": `${absoluteUrl("/")}#localbusiness`,
     name: SITE.legalName,
     image: absoluteUrl(DEFAULT_OG_IMAGE),
+    description: DEFAULT_DESCRIPTION,
     url: SITE.url,
     telephone: SITE.phone,
     email: SITE.email,
@@ -195,6 +214,17 @@ export function getLocalBusinessSchema() {
     sameAs: Object.values(SITE.socials),
     paymentAccepted: ["Cash", "EFT", "Card"],
     currenciesAccepted: SITE.currency,
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "sales",
+        telephone: SITE.phone,
+        email: SITE.email,
+        areaServed: ["Johannesburg", "Pretoria", "Midrand", "Gauteng", "South Africa"],
+        availableLanguage: ["en"],
+      },
+    ],
+    knowsAbout: SITE.keywords.slice(0, 12),
   };
 }
 
@@ -205,7 +235,11 @@ export function getWebsiteSchema() {
     "@id": `${absoluteUrl("/")}#website`,
     name: SITE.name,
     url: SITE.url,
+    description: DEFAULT_DESCRIPTION,
     inLanguage: "en-ZA",
+    publisher: {
+      "@id": `${absoluteUrl("/")}#organization`,
+    },
     potentialAction: {
       "@type": "SearchAction",
       target: `${SITE.url}/stories?search={search_term_string}`,
