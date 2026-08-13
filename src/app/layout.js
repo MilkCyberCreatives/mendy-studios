@@ -1,8 +1,9 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import dynamic from 'next/dynamic';
 import MainHeader from '../components/MainHeader';
 import StructuredData from '../components/StructuredData';
+import GlobalUXEffects from '../components/GlobalUXEffects';
+import MarketingScripts from '../components/MarketingScripts';
 import {
   SITE,
   absoluteUrl,
@@ -12,8 +13,6 @@ import {
 } from '../lib/seo';
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' });
-const GlobalUXEffects = dynamic(() => import('../components/GlobalUXEffects'), { ssr: false });
-const MarketingScripts = dynamic(() => import('../components/MarketingScripts'), { ssr: false });
 
 export const metadata = {
   metadataBase: new URL(SITE.url),
