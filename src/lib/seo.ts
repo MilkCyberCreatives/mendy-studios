@@ -30,6 +30,7 @@ export const SITE = {
   country: "South Africa",
   currency: "ZAR",
   address: {
+    street: "1323 Cameroon St",
     locality: "Midrand",
     region: "Gauteng",
     postalCode: "1685",
@@ -160,6 +161,17 @@ function getOfferCatalog() {
   };
 }
 
+function getPostalAddressSchema() {
+  return {
+    "@type": "PostalAddress",
+    streetAddress: SITE.address.street,
+    addressLocality: SITE.address.locality,
+    addressRegion: SITE.address.region,
+    postalCode: SITE.address.postalCode,
+    addressCountry: SITE.address.country,
+  };
+}
+
 export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
@@ -173,13 +185,7 @@ export function getOrganizationSchema() {
     logo: absoluteUrl(SITE.logo),
     sameAs: Object.values(SITE.socials),
     areaServed: ["Gauteng", "South Africa"],
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: SITE.address.locality,
-      addressRegion: SITE.address.region,
-      postalCode: SITE.address.postalCode,
-      addressCountry: SITE.address.country,
-    },
+    address: getPostalAddressSchema(),
     hasOfferCatalog: getOfferCatalog(),
     contactPoint: [
       {
@@ -206,13 +212,7 @@ export function getLocalBusinessSchema() {
     url: SITE.url,
     telephone: SITE.phone,
     email: SITE.email,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: SITE.address.locality,
-      addressRegion: SITE.address.region,
-      postalCode: SITE.address.postalCode,
-      addressCountry: SITE.address.country,
-    },
+    address: getPostalAddressSchema(),
     areaServed: [
       "Johannesburg",
       "Pretoria",
@@ -349,12 +349,7 @@ export function getServiceSchema() {
         "@type": "ServiceChannel",
         serviceLocation: {
           "@type": "Place",
-          address: {
-            "@type": "PostalAddress",
-            addressLocality: SITE.address.locality,
-            addressRegion: SITE.address.region,
-            addressCountry: "ZA",
-          },
+          address: getPostalAddressSchema(),
         },
       },
     ],
