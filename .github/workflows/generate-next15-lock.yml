@@ -1,11 +1,11 @@
-name: Validate and refresh dependencies
+name: Finalize Next.js 16 migration
 on:
   push:
     branches: [agent/next15-lts-migration]
 permissions:
   contents: write
 jobs:
-  validate:
+  finalize:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -14,22 +14,18 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - name: Refresh lockfile
-        run: npm install
+      - name: Install exact dependencies
+        run: npm ci
       - name: Lint
         run: npm run lint
       - name: Build
         run: npm run build
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
-      - name: Commit generated dependency files to migration branch
+      - name: Remove migration-only helpers and finalize branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json tsconfig.json
-          if git diff --cached --quiet; then
-            echo "Generated dependency files are already current."
-            exit 0
-          fi
-          git commit -m "chore: refresh lockfile for Next.js 16"
+          git rm src/app/api/internal/lockfile/route.ts .github/workflows/generate-next15-lock.yml
+          git commit -m "chore: remove migration-only validation helpers"
           git push origin HEAD:agent/next15-lts-migration
