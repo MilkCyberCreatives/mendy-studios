@@ -15,17 +15,18 @@ import {
 } from '../../../lib/seo';
 
 type StoryPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export function generateStaticParams() {
   return stories.map((story) => ({ slug: story.slug }));
 }
 
-export function generateMetadata({ params }: StoryPageProps): Metadata {
-  const story = getStoryBySlug(params.slug);
+export async function generateMetadata({ params }: StoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const story = getStoryBySlug(slug);
 
   if (!story) {
     return createPageMetadata({
@@ -53,8 +54,9 @@ function formatDate(date: string) {
   }).format(new Date(date));
 }
 
-export default function StoryDetailPage({ params }: StoryPageProps) {
-  const story = getStoryBySlug(params.slug);
+export default async function StoryDetailPage({ params }: StoryPageProps) {
+  const { slug } = await params;
+  const story = getStoryBySlug(slug);
 
   if (!story) {
     notFound();
