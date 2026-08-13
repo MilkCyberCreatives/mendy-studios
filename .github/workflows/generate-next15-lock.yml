@@ -1,0 +1,23 @@
+name: Generate dependency lockfile
+on:
+  push:
+    branches: [agent/next15-lts-migration]
+permissions:
+  contents: read
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: npm run build
+      - run: npm audit --omit=dev --audit-level=high
+      - uses: actions/upload-artifact@v4
+        with:
+          name: next15-lockfile
+          path: package-lock.json
+          if-no-files-found: error
