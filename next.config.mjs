@@ -11,6 +11,13 @@ const nextConfig = {
     optimizePackageImports: ['react-icons'],
   },
   async headers() {
+    const immutableAssetHeaders = [
+      {
+        key: 'Cache-Control',
+        value: 'public, max-age=31536000, immutable',
+      },
+    ];
+
     return [
       {
         source: '/(.*)',
@@ -39,21 +46,15 @@ const nextConfig = {
       },
       {
         source: '/images/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        headers: immutableAssetHeaders,
       },
       {
-        source: '/mendy-studios-logo-:variant*.svg',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
+        source: '/mendy-studios-logo.svg',
+        headers: immutableAssetHeaders,
+      },
+      {
+        source: '/mendy-studios-logo-white.svg',
+        headers: immutableAssetHeaders,
       },
     ];
   },
