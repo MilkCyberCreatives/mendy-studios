@@ -2,7 +2,6 @@ import type { MetadataRoute } from 'next';
 import { SITE, absoluteUrl } from '../lib/seo';
 import { stories } from '../content/stories';
 import { services } from '../content/services';
-import { locations } from '../content/locations';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const corePages: MetadataRoute.Sitemap = SITE.routes.map((route) => ({
@@ -24,11 +23,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const locationPages: MetadataRoute.Sitemap = locations.map((location) => ({
-    url: absoluteUrl(`/areas/${location.slug}`),
-    changeFrequency: 'monthly',
-    priority: location.slug === 'midrand' ? 0.9 : 0.85,
-  }));
-
-  return [...corePages, ...servicePages, ...locationPages, ...storyPages];
+  return [...corePages, ...servicePages, ...storyPages];
 }
