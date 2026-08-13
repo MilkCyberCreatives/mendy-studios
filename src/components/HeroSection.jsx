@@ -46,17 +46,37 @@ export default function HeroSection() {
       return;
     }
 
+    let idleId;
+    let timeoutId;
+    let scheduled = false;
+
     const loadVideo = () => setShouldLoadVideo(true);
-    const idleId =
-      typeof window.requestIdleCallback === 'function'
-        ? window.requestIdleCallback(loadVideo, { timeout: 1200 })
-        : window.setTimeout(loadVideo, 500);
+    const scheduleVideo = () => {
+      if (scheduled) {
+        return;
+      }
+
+      scheduled = true;
+      if (typeof window.requestIdleCallback === 'function') {
+        idleId = window.requestIdleCallback(loadVideo, { timeout: 2500 });
+      } else {
+        timeoutId = window.setTimeout(loadVideo, 1800);
+      }
+    };
+
+    if (document.readyState === 'complete') {
+      scheduleVideo();
+    } else {
+      window.addEventListener('load', scheduleVideo, { once: true });
+    }
 
     return () => {
-      if (typeof idleId === 'number') {
-        window.clearTimeout(idleId);
-      } else if (typeof window.cancelIdleCallback === 'function') {
+      window.removeEventListener('load', scheduleVideo);
+      if (idleId !== undefined && typeof window.cancelIdleCallback === 'function') {
         window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
       }
     };
   }, []);
@@ -91,7 +111,7 @@ export default function HeroSection() {
             className="pointer-events-none absolute left-1/2 top-1/2 h-[56.25vw] min-h-full w-[177.78vh] min-w-full -translate-x-1/2 -translate-y-1/2"
             allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
             referrerPolicy="strict-origin-when-cross-origin"
-            loading="eager"
+            loading="lazy"
           />
         ) : null}
         <div className="absolute inset-0 bg-black/45" />
@@ -106,7 +126,7 @@ export default function HeroSection() {
             className="order-1 z-10 flex flex-col items-center text-center md:order-1 md:items-start md:text-left"
           >
             <h1 className="mb-3 max-w-[12ch] text-3xl font-bold leading-[1.05] text-white sm:text-4xl md:max-w-none md:text-5xl lg:text-6xl">
-              Photography & Vedeography that sells the story.
+              Photography & Videography that sells the story.
             </h1>
             <p className="mb-5 max-w-[26ch] text-base text-gray-200 sm:text-lg md:max-w-md md:text-xl">
               Mendy Studios transforms your vision into powerful visuals.
