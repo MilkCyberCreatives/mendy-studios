@@ -7,6 +7,15 @@ const DEFAULT_DESCRIPTION =
   "Mendy Studios offers professional photography and videography services in Gauteng, South Africa, including weddings, portraits, events, and corporate shoots.";
 const DEFAULT_OG_IMAGE = "/images/og/og-image.jpg";
 
+const SERVICE_NAMES = [
+  "Photography",
+  "Videography",
+  "Streaming Services",
+  "Video Editing",
+  "Studio Sessions",
+  "Photo Albums & Prints",
+] as const;
+
 export const SITE = {
   name: "Mendy Studios",
   legalName: "Mendy Studios",
@@ -21,15 +30,10 @@ export const SITE = {
   country: "South Africa",
   currency: "ZAR",
   address: {
-    street: "Midrand",
     locality: "Midrand",
     region: "Gauteng",
     postalCode: "1685",
     country: "ZA",
-  },
-  geo: {
-    lat: -25.99918,
-    lng: 28.12629,
   },
   socials: {
     facebook: "https://www.facebook.com/MendyStudios",
@@ -38,7 +42,7 @@ export const SITE = {
     whatsapp: "https://wa.me/27732785349",
     youtube: "https://www.youtube.com/@mendystudios",
   },
-  routes: ["/", "/about", "/services", "/gallery", "/motion", "/stories", "/faqs", "/contact"],
+  routes: ["/", "/about", "/services", "/areas", "/gallery", "/motion", "/stories", "/faqs", "/contact"],
   keywords: [
     "photographer Johannesburg",
     "wedding photographer Johannesburg",
@@ -142,6 +146,20 @@ export function createPageMetadata(options: MetadataOptions = {}): Metadata {
   };
 }
 
+function getOfferCatalog() {
+  return {
+    "@type": "OfferCatalog",
+    name: "Mendy Studios photography and videography services",
+    itemListElement: SERVICE_NAMES.map((serviceName) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: serviceName,
+      },
+    })),
+  };
+}
+
 export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
@@ -159,8 +177,10 @@ export function getOrganizationSchema() {
       "@type": "PostalAddress",
       addressLocality: SITE.address.locality,
       addressRegion: SITE.address.region,
+      postalCode: SITE.address.postalCode,
       addressCountry: SITE.address.country,
     },
+    hasOfferCatalog: getOfferCatalog(),
     contactPoint: [
       {
         "@type": "ContactPoint",
@@ -188,16 +208,10 @@ export function getLocalBusinessSchema() {
     email: SITE.email,
     address: {
       "@type": "PostalAddress",
-      streetAddress: SITE.address.street,
       addressLocality: SITE.address.locality,
       addressRegion: SITE.address.region,
       postalCode: SITE.address.postalCode,
       addressCountry: SITE.address.country,
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: SITE.geo.lat,
-      longitude: SITE.geo.lng,
     },
     areaServed: [
       "Johannesburg",
@@ -214,6 +228,7 @@ export function getLocalBusinessSchema() {
     sameAs: Object.values(SITE.socials),
     paymentAccepted: ["Cash", "EFT", "Card"],
     currenciesAccepted: SITE.currency,
+    hasOfferCatalog: getOfferCatalog(),
     contactPoint: [
       {
         "@type": "ContactPoint",
@@ -239,11 +254,6 @@ export function getWebsiteSchema() {
     inLanguage: "en-ZA",
     publisher: {
       "@id": `${absoluteUrl("/")}#organization`,
-    },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${SITE.url}/stories?search={search_term_string}`,
-      "query-input": "required name=search_term_string",
     },
   };
 }

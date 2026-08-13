@@ -7,12 +7,13 @@ const text = `# ${SITE.name}
 
 > Official website: ${SITE.url}
 > Location: Midrand, Gauteng, South Africa
-> Services: Photography, videography, streaming, editing, studio sessions
+> Services: Photography, videography, streaming, editing, studio sessions, photo albums and prints
 
 ## Preferred canonical links
 - ${absoluteUrl('/')}
 - ${absoluteUrl('/about')}
 - ${absoluteUrl('/services')}
+- ${absoluteUrl('/areas')}
 - ${absoluteUrl('/gallery')}
 - ${absoluteUrl('/motion')}
 - ${absoluteUrl('/stories')}
@@ -28,7 +29,8 @@ ${serviceLinks}
 - ${absoluteUrl('/stories/rss.xml')}
 
 ## Coverage and specialties
-- Service area: Midrand, Johannesburg, Pretoria, Gauteng, South Africa
+- Based in: Midrand, Gauteng, South Africa
+- Service coverage: Midrand, Johannesburg, Pretoria, broader Gauteng, and selected South African projects
 - Core specialties: weddings, portraits, events, corporate photography, brand videography, livestreaming, editing
 
 ## Contact
