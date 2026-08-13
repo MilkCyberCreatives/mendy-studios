@@ -44,7 +44,7 @@ export default function FooterSection() {
           className="flex space-x-5 text-xl mt-4"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           viewport={{ once: true }}
         >
           <Link
@@ -83,6 +83,7 @@ export default function FooterSection() {
           <Link href="/" className="hover:text-white">Home</Link>
           <Link href="/about" className="hover:text-white">About</Link>
           <Link href="/services" className="hover:text-white">Services</Link>
+          <Link href="/areas" className="hover:text-white">Areas</Link>
           <Link href="/motion" className="hover:text-white">Motion</Link>
           <Link href="/gallery" className="hover:text-white">Gallery</Link>
           <Link href="/stories" className="hover:text-white">Stories</Link>
