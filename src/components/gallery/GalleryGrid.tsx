@@ -1,33 +1,50 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { IoChevronBack, IoChevronForward, IoClose } from 'react-icons/io5';
 
 const TOTAL_IMAGES = 53;
 const INITIAL_COUNT = 12;
 const LOAD_COUNT = 12;
+const GALLERY_SHUFFLE_SEED = 20260817;
 
 const allGalleryImages = Array.from(
   { length: TOTAL_IMAGES },
   (_, i) => `/images/gallery/gallery${i + 1}.jpg`
 );
 
-function shuffleArray<T>(array: T[]): T[] {
+function seededRandom(seed: number) {
+  let value = seed >>> 0;
+
+  return () => {
+    value += 0x6d2b79f5;
+    let next = value;
+    next = Math.imul(next ^ (next >>> 15), next | 1);
+    next ^= next + Math.imul(next ^ (next >>> 7), next | 61);
+    return ((next ^ (next >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleArray<T>(array: T[], seed: number): T[] {
   const shuffled = [...array];
+  const random = seededRandom(seed);
+
   for (let i = shuffled.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
+
   return shuffled;
 }
 
+const galleryImages = shuffleArray(allGalleryImages, GALLERY_SHUFFLE_SEED);
+
 export default function GalleryGrid() {
-  const shuffledImages = useMemo(() => shuffleArray(allGalleryImages), []);
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
   const [index, setIndex] = useState(-1);
 
-  const visibleImages = shuffledImages.slice(0, visibleCount);
+  const visibleImages = galleryImages.slice(0, visibleCount);
 
   const showPrevious = () => {
     setIndex((current) => (current - 1 + visibleImages.length) % visibleImages.length);
@@ -49,6 +66,7 @@ export default function GalleryGrid() {
               type="button"
               className="group w-full overflow-hidden rounded-xl break-inside-avoid text-left"
               onClick={() => setIndex(i)}
+              aria-label={`Open gallery image ${i + 1}`}
             >
               <Image
                 src={src}
@@ -63,7 +81,7 @@ export default function GalleryGrid() {
           ))}
         </div>
 
-        {visibleCount < shuffledImages.length ? (
+        {visibleCount < galleryImages.length ? (
           <div className="text-center mt-10">
             <button
               type="button"
@@ -76,7 +94,12 @@ export default function GalleryGrid() {
         ) : null}
 
         {index >= 0 ? (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <div
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Gallery image preview"
+          >
             <div className="relative max-w-5xl w-full h-[90vh]">
               <Image
                 src={visibleImages[index]}
