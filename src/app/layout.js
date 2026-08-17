@@ -6,7 +6,6 @@ import GlobalUXEffects from '../components/GlobalUXEffects';
 import MarketingScripts from '../components/MarketingScripts';
 import {
   SITE,
-  absoluteUrl,
   getLocalBusinessSchema,
   getOrganizationSchema,
   getWebsiteSchema,
@@ -29,9 +28,6 @@ export const metadata = {
   creator: SITE.name,
   publisher: SITE.name,
   authors: [{ name: SITE.name, url: SITE.url }],
-  alternates: {
-    canonical: absoluteUrl('/'),
-  },
   icons: {
     icon: '/mendy-studios-logo.svg',
     shortcut: '/mendy-studios-logo.svg',
@@ -60,17 +56,6 @@ export const metadata = {
     title: 'Mendy Studios | Photography & Videography',
     description: 'Professional photography and videography services across Gauteng.',
     images: ['/images/og/og-image.jpg'],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-      'max-video-preview': -1,
-    },
   },
   verification: {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
