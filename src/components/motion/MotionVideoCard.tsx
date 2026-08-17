@@ -22,7 +22,7 @@ function getEmbedUrl(videoId: string) {
     controls: '1',
   });
 
-  return `https://www.youtube.com/embed/${videoId}?${params.toString()}`;
+  return `https://www.youtube-nocookie.com/embed/${videoId}?${params.toString()}`;
 }
 
 function getWatchUrl(videoId: string) {
