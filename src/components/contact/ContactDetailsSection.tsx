@@ -115,34 +115,38 @@ export default function ContactDetailsSection() {
                 href={SITE.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Mendy Studios on Facebook"
                 className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
               >
-                <FaFacebook />
+                <FaFacebook aria-hidden="true" />
               </a>
               <a
                 href={SITE.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Mendy Studios on Instagram"
                 className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
               >
-                <FaInstagram />
+                <FaInstagram aria-hidden="true" />
               </a>
               <a
                 href={SITE.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Mendy Studios on LinkedIn"
                 className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
               >
-                <FaLinkedinIn />
+                <FaLinkedinIn aria-hidden="true" />
               </a>
               <a
                 href={SITE.socials.whatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Contact Mendy Studios on WhatsApp"
                 className="hover-lift rounded-full border border-white/15 bg-white/5 p-3 transition hover:border-[#F26722] hover:text-[#F26722]"
                 onClick={() => trackLead('whatsapp', 'contact_page')}
               >
-                <FaWhatsapp />
+                <FaWhatsapp aria-hidden="true" />
               </a>
             </div>
           </div>
