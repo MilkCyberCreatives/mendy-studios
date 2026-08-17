@@ -26,15 +26,18 @@ export default function AboutSection() {
             corporate events, our lens never misses the magic.
           </p>
 
-          <Link href="/about">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition"
+          <motion.div
+            className="inline-block"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Link
+              href="/about"
+              className="inline-block px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition"
             >
               Learn More
-            </motion.button>
-          </Link>
+            </Link>
+          </motion.div>
         </motion.div>
 
         <div className="grid grid-cols-2 gap-4">
