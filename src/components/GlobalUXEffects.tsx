@@ -21,8 +21,6 @@ export default function GlobalUXEffects() {
   const dotRef = useRef<HTMLDivElement | null>(null);
   const ringRef = useRef<HTMLDivElement | null>(null);
   const [isPointerFine, setIsPointerFine] = useState(false);
-  const [cursorActive, setCursorActive] = useState(false);
-  const [cursorVisible, setCursorVisible] = useState(false);
 
   useEffect(() => {
     let frameId = 0;
@@ -145,7 +143,13 @@ export default function GlobalUXEffects() {
     let ringX = pointerX;
     let ringY = pointerY;
 
+    const setCursorClass = (className: string, enabled: boolean) => {
+      ringRef.current?.classList.toggle(className, enabled);
+      dotRef.current?.classList.toggle(className, enabled);
+    };
+
     const render = () => {
+      frameId = 0;
       ringX += (pointerX - ringX) * 0.15;
       ringY += (pointerY - ringY) * 0.15;
 
@@ -157,29 +161,39 @@ export default function GlobalUXEffects() {
         ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
       }
 
-      frameId = window.requestAnimationFrame(render);
+      if (Math.abs(pointerX - ringX) > 0.1 || Math.abs(pointerY - ringY) > 0.1) {
+        frameId = window.requestAnimationFrame(render);
+      }
+    };
+
+    const scheduleRender = () => {
+      if (!frameId) {
+        frameId = window.requestAnimationFrame(render);
+      }
     };
 
     const onPointerMove = (event: PointerEvent) => {
       pointerX = event.clientX;
       pointerY = event.clientY;
-      setCursorVisible(true);
+      setCursorClass('cursor-visible', true);
+      scheduleRender();
     };
 
     const onPointerOver = (event: Event) => {
       const target = event.target as HTMLElement | null;
-      setCursorActive(Boolean(target?.closest(INTERACTIVE_SELECTOR)));
+      setCursorClass('cursor-active', Boolean(target?.closest(INTERACTIVE_SELECTOR)));
     };
 
-    const onPointerLeave = () => setCursorVisible(false);
+    const onPointerLeave = () => setCursorClass('cursor-visible', false);
 
-    frameId = window.requestAnimationFrame(render);
     document.addEventListener('pointermove', onPointerMove, { passive: true });
     document.addEventListener('pointerover', onPointerOver, true);
     document.addEventListener('pointerleave', onPointerLeave);
 
     return () => {
-      window.cancelAnimationFrame(frameId);
+      if (frameId) {
+        window.cancelAnimationFrame(frameId);
+      }
       document.removeEventListener('pointermove', onPointerMove);
       document.removeEventListener('pointerover', onPointerOver, true);
       document.removeEventListener('pointerleave', onPointerLeave);
@@ -192,20 +206,8 @@ export default function GlobalUXEffects() {
 
       {isPointerFine ? (
         <>
-          <div
-            ref={ringRef}
-            aria-hidden="true"
-            className={`custom-cursor-ring${
-              cursorVisible ? ' cursor-visible' : ''
-            }${cursorActive ? ' cursor-active' : ''}`}
-          />
-          <div
-            ref={dotRef}
-            aria-hidden="true"
-            className={`custom-cursor-dot${
-              cursorVisible ? ' cursor-visible' : ''
-            }${cursorActive ? ' cursor-active' : ''}`}
-          />
+          <div ref={ringRef} aria-hidden="true" className="custom-cursor-ring" />
+          <div ref={dotRef} aria-hidden="true" className="custom-cursor-dot" />
         </>
       ) : null}
     </>
