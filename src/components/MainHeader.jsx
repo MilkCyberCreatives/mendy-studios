@@ -102,7 +102,7 @@ export default function MainHeader() {
             className="p-2"
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-main-nav"
-            aria-label="Toggle menu"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             {mobileMenuOpen ? <HiOutlineX /> : <HiOutlineMenuAlt3 />}
           </button>
@@ -111,6 +111,7 @@ export default function MainHeader() {
 
       <nav
         id="mobile-main-nav"
+        aria-hidden={!mobileMenuOpen}
         className={`md:hidden bg-black/95 border-t border-white/10 overflow-hidden transition-[max-height,opacity] duration-300 ${
           mobileMenuOpen ? 'max-h-[420px] opacity-100' : 'max-h-0 opacity-0'
         }`}
@@ -124,6 +125,7 @@ export default function MainHeader() {
                 key={link.name}
                 href={link.href}
                 aria-current={isActive ? 'page' : undefined}
+                tabIndex={mobileMenuOpen ? 0 : -1}
                 className={`block py-3 text-base border-b border-white/10 transition ${
                   isActive ? 'text-[#F26722]' : 'hover:text-gray-300'
                 }`}
