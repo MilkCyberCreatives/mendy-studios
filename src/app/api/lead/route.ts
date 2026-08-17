@@ -20,9 +20,34 @@ type DeliveryResult = {
 };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_BODY_BYTES = 32 * 1024;
+const FIELD_LIMITS = {
+  formId: 80,
+  name: 120,
+  email: 254,
+  phone: 50,
+  message: 5000,
+  service: 160,
+  location: 200,
+  page: 500,
+} as const;
 
 function sanitize(value: unknown) {
   return typeof value === 'string' ? value.trim() : '';
+}
+
+function isSameOriginRequest(request: Request) {
+  const origin = request.headers.get('origin');
+
+  if (!origin) {
+    return true;
+  }
+
+  try {
+    return new URL(origin).origin === new URL(request.url).origin;
+  } catch {
+    return false;
+  }
 }
 
 function validate(payload: LeadPayload) {
@@ -30,14 +55,40 @@ function validate(payload: LeadPayload) {
 
   if (!payload.name || payload.name.length < 2) {
     errors.push('Please provide your full name.');
+  } else if (payload.name.length > FIELD_LIMITS.name) {
+    errors.push('Please shorten your name.');
   }
 
   if (!payload.email || !EMAIL_PATTERN.test(payload.email)) {
     errors.push('Please provide a valid email address.');
+  } else if (payload.email.length > FIELD_LIMITS.email) {
+    errors.push('Please provide a shorter email address.');
   }
 
   if (!payload.message || payload.message.length < 10) {
     errors.push('Please provide a more detailed message.');
+  } else if (payload.message.length > FIELD_LIMITS.message) {
+    errors.push('Please shorten your message.');
+  }
+
+  if (payload.formId.length > FIELD_LIMITS.formId) {
+    errors.push('Invalid form identifier.');
+  }
+
+  if (payload.phone && payload.phone.length > FIELD_LIMITS.phone) {
+    errors.push('Please provide a shorter phone number.');
+  }
+
+  if (payload.service && payload.service.length > FIELD_LIMITS.service) {
+    errors.push('Please shorten the service selection.');
+  }
+
+  if (payload.location && payload.location.length > FIELD_LIMITS.location) {
+    errors.push('Please shorten the location.');
+  }
+
+  if (payload.page && payload.page.length > FIELD_LIMITS.page) {
+    errors.push('Invalid page value.');
   }
 
   return errors;
@@ -206,8 +257,30 @@ async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>): Promis
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as Partial<LeadPayload>;
+    if (!isSameOriginRequest(request)) {
+      return NextResponse.json(
+        { ok: false, errors: ['Request origin is not allowed.'] },
+        { status: 403 }
+      );
+    }
 
+    const declaredLength = Number(request.headers.get('content-length') || 0);
+    if (Number.isFinite(declaredLength) && declaredLength > MAX_BODY_BYTES) {
+      return NextResponse.json(
+        { ok: false, errors: ['Request is too large.'] },
+        { status: 413 }
+      );
+    }
+
+    const rawBody = await request.text();
+    if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
+      return NextResponse.json(
+        { ok: false, errors: ['Request is too large.'] },
+        { status: 413 }
+      );
+    }
+
+    const body = JSON.parse(rawBody) as Partial<LeadPayload>;
     const payload: LeadPayload = {
       formId: sanitize(body.formId) || 'unknown_form',
       name: sanitize(body.name),
@@ -226,7 +299,6 @@ export async function POST(request: Request) {
     }
 
     const lead = buildLeadRecord(payload, request);
-
     const deliveries = await Promise.allSettled([
       sendSmtpEmail(lead),
       sendWebhook(lead),
@@ -239,18 +311,17 @@ export async function POST(request: Request) {
       return [result.value.channel];
     });
 
-    const channelErrors = deliveries.flatMap((result) => {
-      if (result.status !== 'fulfilled' || !result.value.error) {
-        return [];
-      }
-      return [`${result.value.channel}: ${result.value.error}`];
-    });
-
     if (sentChannels.length === 0) {
+      const failedChannels = deliveries.flatMap((result) => {
+        if (result.status === 'fulfilled') {
+          return [result.value.channel];
+        }
+        return ['unknown'];
+      });
+
       console.error('[lead] submission could not be delivered', {
         formId: lead.formId,
-        email: lead.email,
-        channels: channelErrors,
+        channels: failedChannels,
         fallback:
           'Configure SMTP_HOST/SMTP_USER/SMTP_PASSWORD and LEAD_TO_EMAIL, or LEAD_WEBHOOK_URL, or RESEND_API_KEY.',
       });
@@ -264,9 +335,9 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ ok: true, channels: sentChannels }, { status: 200 });
+    return NextResponse.json({ ok: true }, { status: 200 });
   } catch (error) {
-    console.error('[lead] submission failed', error);
+    console.error('[lead] submission failed', error instanceof Error ? error.name : 'unknown_error');
     return NextResponse.json(
       {
         ok: false,
