@@ -61,9 +61,11 @@ export default function GallerySection() {
                 : 'h-[250px]';
 
             return (
-              <motion.div
+              <motion.button
                 key={img.id}
-                className={`relative overflow-hidden rounded-2xl border border-white/10 break-inside-avoid transition-transform duration-300 hover:scale-[1.03] ${shapeClass}`}
+                type="button"
+                aria-label={`Open gallery image ${img.id}`}
+                className={`relative w-full overflow-hidden rounded-2xl border border-white/10 break-inside-avoid transition-transform duration-300 hover:scale-[1.03] ${shapeClass}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.08 }}
@@ -78,7 +80,7 @@ export default function GallerySection() {
                   quality={58}
                   sizes="(max-width: 768px) 100vw, 33vw"
                 />
-              </motion.div>
+              </motion.button>
             );
           })}
         </div>
@@ -91,6 +93,9 @@ export default function GallerySection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Gallery image preview"
           >
             <div className="relative max-w-5xl w-full h-[90vh]">
               <Image
@@ -99,9 +104,11 @@ export default function GallerySection() {
                 fill
                 className="object-contain"
                 quality={72}
+                sizes="100vw"
               />
 
               <button
+                type="button"
                 onClick={() => setSelectedIndex(null)}
                 className="absolute top-4 right-4 text-white text-3xl bg-black/60 p-2 rounded-full"
                 aria-label="Close image preview"
@@ -110,6 +117,7 @@ export default function GallerySection() {
               </button>
 
               <button
+                type="button"
                 onClick={handlePrev}
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
                 aria-label="Previous image"
@@ -118,6 +126,7 @@ export default function GallerySection() {
               </button>
 
               <button
+                type="button"
                 onClick={handleNext}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl bg-black/50 p-2 rounded-full hover:bg-white hover:text-black"
                 aria-label="Next image"
