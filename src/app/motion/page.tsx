@@ -11,7 +11,6 @@ import {
   absoluteUrl,
   createPageMetadata,
   getBreadcrumbSchema,
-  getFAQSchema,
 } from '../../lib/seo';
 
 export const metadata: Metadata = createPageMetadata({
@@ -112,24 +111,6 @@ const motionCollectionSchema = {
   },
 };
 
-const motionFaqSchema = getFAQSchema([
-  {
-    question: 'What types of motion projects does Mendy Studios produce?',
-    answer:
-      'Mendy Studios produces event highlights, corporate videos, brand films, and cinematic reels for campaigns, launches, and storytelling projects.',
-  },
-  {
-    question: 'Where does Mendy Studios offer motion videography services?',
-    answer:
-      'Mendy Studios is based in Midrand and serves Johannesburg, Pretoria, Gauteng, and selected projects across South Africa.',
-  },
-  {
-    question: 'Can I book both photography and motion coverage for the same project?',
-    answer:
-      'Yes, Mendy Studios can combine photography and motion videography coverage for events, campaigns, and branded productions.',
-  },
-]);
-
 export default function MotionPage() {
   return (
     <>
@@ -144,7 +125,6 @@ export default function MotionPage() {
       />
       <StructuredData id="schema-motion-collection" data={motionCollectionSchema} />
       <StructuredData id="schema-motion-videos" data={motionVideoObjects} />
-      <StructuredData id="schema-motion-faq" data={motionFaqSchema} />
 
       <MotionFullscreenHero streamVideoId={streamVideoId} />
 
