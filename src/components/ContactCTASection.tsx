@@ -92,6 +92,7 @@ export default function ContactCTASection() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <button
+            type="button"
             onClick={() => setShowForm(true)}
             className="bg-[#F26722] px-6 py-3 rounded-full hover:bg-white hover:text-[#F26722] transition"
           >
@@ -100,6 +101,7 @@ export default function ContactCTASection() {
           <a
             href={SITE.socials.whatsapp}
             target="_blank"
+            rel="noopener noreferrer"
             className="bg-green-500 px-6 py-3 rounded-full flex items-center justify-center gap-2 hover:bg-green-400 transition"
             onClick={() => trackLead('whatsapp', 'contact_cta')}
           >
@@ -115,6 +117,9 @@ export default function ContactCTASection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="quick-message-title"
           >
             <motion.div
               className="bg-white rounded-xl p-8 max-w-md w-full relative text-black border border-black/10"
@@ -124,18 +129,20 @@ export default function ContactCTASection() {
               transition={{ duration: 0.4 }}
             >
               <button
+                type="button"
                 className="absolute top-3 right-3 text-gray-600 hover:text-black"
                 onClick={() => setShowForm(false)}
                 aria-label="Close quick message form"
               >
-                <FaTimes />
+                <FaTimes aria-hidden="true" />
               </button>
-              <h3 className="text-xl font-semibold mb-4">Quick Message</h3>
+              <h3 id="quick-message-title" className="text-xl font-semibold mb-4">Quick Message</h3>
               <form className="space-y-4" onSubmit={handleQuickMessageSubmit}>
                 <input
                   type="text"
                   name="name"
                   required
+                  aria-label="Your name"
                   placeholder="Your Name"
                   className="w-full border px-4 py-2 rounded-md"
                 />
@@ -143,12 +150,14 @@ export default function ContactCTASection() {
                   type="email"
                   name="email"
                   required
+                  aria-label="Your email"
                   placeholder="Your Email"
                   className="w-full border px-4 py-2 rounded-md"
                 />
                 <input
                   type="tel"
                   name="phone"
+                  aria-label="Your phone"
                   placeholder="Your Phone"
                   className="w-full border px-4 py-2 rounded-md"
                 />
@@ -156,6 +165,7 @@ export default function ContactCTASection() {
                   name="message"
                   required
                   minLength={10}
+                  aria-label="Your message"
                   placeholder="Your Message"
                   rows={4}
                   className="w-full border px-4 py-2 rounded-md"
