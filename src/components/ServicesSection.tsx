@@ -102,11 +102,10 @@ export default function ServicesSection() {
         >
           <a
             href={`mailto:${SITE.email}`}
+            className="inline-block bg-[#F26722] text-white px-6 py-3 rounded-full hover:bg-[#d5521b] transition"
             onClick={() => trackLead('email', 'services_section')}
           >
-            <button className="bg-[#F26722] text-white px-6 py-3 rounded-full hover:bg-[#d5521b] transition">
-              Book a Session
-            </button>
+            Book a Session
           </a>
         </motion.div>
       </div>

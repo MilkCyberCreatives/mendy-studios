@@ -6,8 +6,6 @@ import StructuredData from '../components/StructuredData';
 import {
   createPageMetadata,
   getBreadcrumbSchema,
-  getFAQSchema,
-  getBookingProcessSchema,
   getServiceSchema,
 } from '../lib/seo';
 
@@ -30,19 +28,6 @@ export const metadata = createPageMetadata({
   ],
 });
 
-const homeFaqSchema = getFAQSchema([
-  {
-    question: 'Where does Mendy Studios provide photography and videography services?',
-    answer:
-      'Mendy Studios serves Gauteng and surrounding South African regions, including Johannesburg, Pretoria, and Midrand.',
-  },
-  {
-    question: 'What services does Mendy Studios offer?',
-    answer:
-      'The studio offers photography, videography, streaming, editing, and studio session services for personal and corporate clients.',
-  },
-]);
-
 export default function Home() {
   return (
     <>
@@ -51,8 +36,6 @@ export default function Home() {
         data={getBreadcrumbSchema([{ name: 'Home', path: '/' }])}
       />
       <StructuredData id="schema-home-services" data={getServiceSchema()} />
-      <StructuredData id="schema-home-faq" data={homeFaqSchema} />
-      <StructuredData id="schema-home-howto" data={getBookingProcessSchema()} />
 
       <HeroSection />
       <AboutSection />

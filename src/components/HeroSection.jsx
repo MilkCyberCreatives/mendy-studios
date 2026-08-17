@@ -134,29 +134,35 @@ export default function HeroSection() {
 
             <div className="w-full">
               <div className="flex flex-col justify-center gap-3 sm:flex-row sm:items-center md:justify-start">
-                <Link href="/gallery" passHref>
-                  <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="w-full whitespace-nowrap rounded-lg bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-gray-200 sm:w-auto sm:px-8"
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="w-full sm:w-auto"
+                >
+                  <Link
+                    href="/gallery"
+                    className="block w-full whitespace-nowrap rounded-lg bg-white px-6 py-3 text-center font-semibold text-black transition-all duration-300 hover:-translate-y-1 hover:bg-gray-200 sm:w-auto sm:px-8"
                     onClick={() => trackEvent('cta_click', { location: 'hero', target: 'gallery' })}
                   >
                     View Portfolio
-                  </motion.button>
-                </Link>
+                  </Link>
+                </motion.div>
 
-                <Link href="/motion" passHref>
-                  <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.68 }}
-                    className="w-full whitespace-nowrap rounded-lg border border-white/30 bg-black/35 px-6 py-3 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-black sm:w-auto sm:px-8"
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.68 }}
+                  className="w-full sm:w-auto"
+                >
+                  <Link
+                    href="/motion"
+                    className="block w-full whitespace-nowrap rounded-lg border border-white/30 bg-black/35 px-6 py-3 text-center font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-black sm:w-auto sm:px-8"
                     onClick={() => trackEvent('cta_click', { location: 'hero', target: 'motion' })}
                   >
                     Watch Motion Reels
-                  </motion.button>
-                </Link>
+                  </Link>
+                </motion.div>
               </div>
 
               <motion.div

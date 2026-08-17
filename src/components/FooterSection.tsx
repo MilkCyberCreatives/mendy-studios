@@ -50,26 +50,32 @@ export default function FooterSection() {
           <Link
             href="https://facebook.com/mendystudios"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Mendy Studios on Facebook"
             className="hover:text-[#F26722] transition-all"
             onClick={() => trackEvent('social_click', { platform: 'facebook', location: 'footer' })}
           >
-            <FaFacebookF />
+            <FaFacebookF aria-hidden="true" />
           </Link>
           <Link
             href="https://instagram.com/mendystudios"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Mendy Studios on Instagram"
             className="hover:text-[#F26722] transition-all"
             onClick={() => trackEvent('social_click', { platform: 'instagram', location: 'footer' })}
           >
-            <FaInstagram />
+            <FaInstagram aria-hidden="true" />
           </Link>
           <Link
             href="https://youtube.com/@mendystudios"
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Mendy Studios on YouTube"
             className="hover:text-[#F26722] transition-all"
             onClick={() => trackEvent('social_click', { platform: 'youtube', location: 'footer' })}
           >
-            <FaYoutube />
+            <FaYoutube aria-hidden="true" />
           </Link>
         </motion.div>
 
@@ -92,13 +98,14 @@ export default function FooterSection() {
         </motion.div>
 
         <motion.button
+          type="button"
           whileHover={{ scale: 1.2 }}
           whileTap={{ scale: 0.9 }}
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="mt-8 bg-[#F26722] text-white p-3 rounded-full hover:bg-[#d6551c] transition-all"
           aria-label="Scroll to top"
         >
-          <FaArrowUp />
+          <FaArrowUp aria-hidden="true" />
         </motion.button>
       </div>
 
@@ -109,6 +116,7 @@ export default function FooterSection() {
           <Link
             href="https://www.milkcybercreatives.co.za"
             target="_blank"
+            rel="noopener noreferrer"
             className="text-[#F26722] hover:underline"
           >
             Milk Cyber Creatives
