@@ -68,7 +68,6 @@ const invalidLead = await get('/api/lead', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Origin: baseUrl,
   },
   body: JSON.stringify({
     formId: 'qa_invalid',
@@ -79,11 +78,25 @@ const invalidLead = await get('/api/lead', {
 });
 check(invalidLead.status === 400, `invalid lead expected 400, received ${invalidLead.status}`);
 
+const crossOriginLead = await get('/api/lead', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Origin: 'https://example.invalid',
+  },
+  body: JSON.stringify({
+    formId: 'qa_cross_origin',
+    name: 'Quality Assurance',
+    email: 'qa@example.com',
+    message: 'This request must be rejected before delivery.',
+  }),
+});
+check(crossOriginLead.status === 403, `cross-origin lead expected 403, received ${crossOriginLead.status}`);
+
 const honeypotLead = await get('/api/lead', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    Origin: baseUrl,
   },
   body: JSON.stringify({
     formId: 'qa_honeypot',
