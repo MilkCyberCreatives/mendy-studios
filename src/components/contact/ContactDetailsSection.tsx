@@ -38,6 +38,7 @@ export default function ContactDetailsSection() {
         phone: String(formData.get('phone') || ''),
         message: String(formData.get('message') || ''),
         page: pathname,
+        website: String(formData.get('website') || ''),
       });
 
       trackLead('form', 'contact_page');
@@ -169,6 +170,7 @@ export default function ContactDetailsSection() {
                 type="text"
                 name="name"
                 required
+                autoComplete="name"
                 placeholder="Your full name"
                 className="rounded-xl border border-white/15 bg-white/8 p-3 text-white outline-none transition focus:border-[#F26722]/80 focus:ring-2 focus:ring-[#F26722]/30"
               />
@@ -186,6 +188,7 @@ export default function ContactDetailsSection() {
                 type="email"
                 name="email"
                 required
+                autoComplete="email"
                 placeholder="you@example.com"
                 className="rounded-xl border border-white/15 bg-white/8 p-3 text-white outline-none transition focus:border-[#F26722]/80 focus:ring-2 focus:ring-[#F26722]/30"
               />
@@ -202,6 +205,7 @@ export default function ContactDetailsSection() {
                 id="contact-phone"
                 type="tel"
                 name="phone"
+                autoComplete="tel"
                 placeholder="e.g. +27 73 278 5349"
                 className="rounded-xl border border-white/15 bg-white/8 p-3 text-white outline-none transition focus:border-[#F26722]/80 focus:ring-2 focus:ring-[#F26722]/30"
               />
@@ -225,12 +229,27 @@ export default function ContactDetailsSection() {
               />
             </div>
 
-            {formError ? <p className="text-sm text-red-400">{formError}</p> : null}
-            {formMessage ? <p className="text-sm text-emerald-400">{formMessage}</p> : null}
+            <div
+              aria-hidden="true"
+              style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}
+            >
+              <label htmlFor="contact-website">Website</label>
+              <input
+                id="contact-website"
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
+
+            {formError ? <p role="alert" className="text-sm text-red-400">{formError}</p> : null}
+            {formMessage ? <p role="status" aria-live="polite" className="text-sm text-emerald-400">{formMessage}</p> : null}
 
             <button
               type="submit"
               disabled={isSubmitting}
+              aria-busy={isSubmitting}
               className="hover-lift hover-glow hover-shine mt-2 rounded-xl bg-[#F26722] px-6 py-3 font-semibold text-white transition hover:bg-[#d9561b] disabled:opacity-60"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
