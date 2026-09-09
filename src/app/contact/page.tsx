@@ -3,7 +3,7 @@ import ContactHero from '../../components/contact/ContactHero';
 import ContactDetailsSection from '../../components/contact/ContactDetailsSection';
 import FooterSection from '../../components/FooterSection';
 import StructuredData from '../../components/StructuredData';
-import { createPageMetadata, getBreadcrumbSchema, getFAQSchema } from '../../lib/seo';
+import { createPageMetadata, getBreadcrumbSchema } from '../../lib/seo';
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Contact',
@@ -12,18 +12,6 @@ export const metadata: Metadata = createPageMetadata({
   path: '/contact',
   keywords: ['contact Mendy Studios', 'book photographer Gauteng', 'Midrand videography contact'],
 });
-
-const contactFaqSchema = getFAQSchema([
-  {
-    question: 'How can I contact Mendy Studios?',
-    answer:
-      'You can contact Mendy Studios by phone, email, WhatsApp, or by sending a message through the contact form.',
-  },
-  {
-    question: 'Where is Mendy Studios based?',
-    answer: 'Mendy Studios is based in Midrand, Gauteng, South Africa.',
-  },
-]);
 
 export default function ContactPage() {
   return (
@@ -37,7 +25,6 @@ export default function ContactPage() {
           ])
         }
       />
-      <StructuredData id="schema-contact-faq" data={contactFaqSchema} />
 
       <ContactHero />
       <ContactDetailsSection />
