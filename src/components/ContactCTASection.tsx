@@ -25,6 +25,7 @@ export default function ContactCTASection() {
     }
 
     const dialog = dialogRef.current;
+    const trigger = triggerRef.current;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     firstFieldRef.current?.focus();
@@ -67,7 +68,7 @@ export default function ContactCTASection() {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
-      triggerRef.current?.focus();
+      trigger?.focus();
     };
   }, [showForm]);
 
