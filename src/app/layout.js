@@ -4,6 +4,7 @@ import MainHeader from '../components/MainHeader';
 import StructuredData from '../components/StructuredData';
 import GlobalUXEffects from '../components/GlobalUXEffects';
 import MarketingScripts from '../components/MarketingScripts';
+import CmsRuntime from '../components/CmsRuntime';
 import {
   SITE,
   getLocalBusinessSchema,
@@ -36,18 +37,10 @@ export const metadata = {
   manifest: '/manifest.webmanifest',
   openGraph: {
     title: 'Mendy Studios | Professional Photography & Videography in Gauteng',
-    description:
-      'Premium photography and videography services in Gauteng, Johannesburg, and Pretoria.',
+    description: 'Premium photography and videography services in Gauteng, Johannesburg, and Pretoria.',
     url: SITE.url,
     siteName: SITE.name,
-    images: [
-      {
-        url: '/images/og/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'Mendy Studios Photography & Videography',
-      },
-    ],
+    images: [{ url: '/images/og/og-image.jpg', width: 1200, height: 630, alt: 'Mendy Studios Photography & Videography' }],
     locale: SITE.locale,
     type: 'website',
   },
@@ -61,20 +54,13 @@ export const metadata = {
     google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
     other: {
       'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || undefined,
-      'yandex-verification':
-        process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION || undefined,
-      'p:domain_verify':
-        process.env.NEXT_PUBLIC_PINTEREST_SITE_VERIFICATION || undefined,
+      'yandex-verification': process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION || undefined,
+      'p:domain_verify': process.env.NEXT_PUBLIC_PINTEREST_SITE_VERIFICATION || undefined,
     },
   },
 };
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: '#0b0b0b',
-  colorScheme: 'dark',
-};
+export const viewport = { width: 'device-width', initialScale: 1, themeColor: '#0b0b0b', colorScheme: 'dark' };
 
 export default function RootLayout({ children }) {
   return (
@@ -82,16 +68,13 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} bg-black text-white`}>
         <MarketingScripts />
         <GlobalUXEffects />
-        <a href="#main-content" className="skip-link">
-          Skip to content
-        </a>
+        <CmsRuntime />
+        <a href="#main-content" className="skip-link">Skip to content</a>
         <MainHeader />
         <StructuredData id="schema-organization" data={getOrganizationSchema()} />
         <StructuredData id="schema-local-business" data={getLocalBusinessSchema()} />
         <StructuredData id="schema-website" data={getWebsiteSchema()} />
-        <main id="main-content" className="site-main">
-          {children}
-        </main>
+        <main id="main-content" className="site-main">{children}</main>
       </body>
     </html>
   );
