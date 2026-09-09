@@ -7,6 +7,7 @@ export type LeadPayload = {
   service?: string;
   location?: string;
   page?: string;
+  website?: string;
 };
 
 export async function submitLead(payload: LeadPayload) {
