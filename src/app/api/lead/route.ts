@@ -12,6 +12,10 @@ type LeadPayload = {
   page?: string;
 };
 
+type IncomingLeadPayload = Partial<LeadPayload> & {
+  website?: unknown;
+};
+
 type DeliveryChannel = 'smtp' | 'webhook' | 'resend';
 type DeliveryResult = {
   sent: boolean;
@@ -21,6 +25,7 @@ type DeliveryResult = {
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_BODY_BYTES = 32 * 1024;
+const DELIVERY_TIMEOUT_MS = 10_000;
 const FIELD_LIMITS = {
   formId: 80,
   name: 120,
@@ -140,6 +145,9 @@ async function sendSmtpEmail(lead: ReturnType<typeof buildLeadRecord>): Promise<
       host,
       port,
       secure,
+      connectionTimeout: DELIVERY_TIMEOUT_MS,
+      greetingTimeout: DELIVERY_TIMEOUT_MS,
+      socketTimeout: DELIVERY_TIMEOUT_MS,
       auth: {
         user,
         pass,
@@ -159,7 +167,7 @@ async function sendSmtpEmail(lead: ReturnType<typeof buildLeadRecord>): Promise<
     return {
       sent: false,
       channel: 'smtp',
-      error: error instanceof Error ? error.message : 'SMTP delivery failed',
+      error: error instanceof Error ? error.name : 'SMTP delivery failed',
     };
   }
 }
@@ -178,13 +186,14 @@ async function sendWebhook(lead: ReturnType<typeof buildLeadRecord>): Promise<De
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(lead),
+      signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
     });
 
     if (!response.ok) {
       return {
         sent: false,
         channel: 'webhook',
-        error: `Webhook delivery failed with status ${response.status}`,
+        error: `status_${response.status}`,
       };
     }
 
@@ -193,7 +202,7 @@ async function sendWebhook(lead: ReturnType<typeof buildLeadRecord>): Promise<De
     return {
       sent: false,
       channel: 'webhook',
-      error: error instanceof Error ? error.message : 'Webhook delivery failed',
+      error: error instanceof Error ? error.name : 'Webhook delivery failed',
     };
   }
 }
@@ -235,13 +244,14 @@ async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>): Promis
         text,
         reply_to: lead.email,
       }),
+      signal: AbortSignal.timeout(DELIVERY_TIMEOUT_MS),
     });
 
     if (!response.ok) {
       return {
         sent: false,
         channel: 'resend',
-        error: `Resend delivery failed with status ${response.status}`,
+        error: `status_${response.status}`,
       };
     }
 
@@ -250,9 +260,25 @@ async function sendResendEmail(lead: ReturnType<typeof buildLeadRecord>): Promis
     return {
       sent: false,
       channel: 'resend',
-      error: error instanceof Error ? error.message : 'Resend delivery failed',
+      error: error instanceof Error ? error.name : 'Resend delivery failed',
     };
   }
+}
+
+async function deliverLead(lead: ReturnType<typeof buildLeadRecord>) {
+  const senders = [sendSmtpEmail, sendWebhook, sendResendEmail] as const;
+  const attempts: DeliveryResult[] = [];
+
+  for (const send of senders) {
+    const result = await send(lead);
+    attempts.push(result);
+
+    if (result.sent) {
+      return { sent: true, channel: result.channel, attempts } as const;
+    }
+  }
+
+  return { sent: false, attempts } as const;
 }
 
 export async function POST(request: Request) {
@@ -280,7 +306,22 @@ export async function POST(request: Request) {
       );
     }
 
-    const body = JSON.parse(rawBody) as Partial<LeadPayload>;
+    let body: IncomingLeadPayload;
+    try {
+      body = JSON.parse(rawBody) as IncomingLeadPayload;
+    } catch {
+      return NextResponse.json(
+        { ok: false, errors: ['Invalid request body.'] },
+        { status: 400 }
+      );
+    }
+
+    // Honeypot: legitimate forms leave this field empty. Return a normal success
+    // response so automated spam does not learn that it was detected.
+    if (sanitize(body.website)) {
+      return NextResponse.json({ ok: true }, { status: 200 });
+    }
+
     const payload: LeadPayload = {
       formId: sanitize(body.formId) || 'unknown_form',
       name: sanitize(body.name),
@@ -299,29 +340,12 @@ export async function POST(request: Request) {
     }
 
     const lead = buildLeadRecord(payload, request);
-    const deliveries = await Promise.allSettled([
-      sendSmtpEmail(lead),
-      sendWebhook(lead),
-      sendResendEmail(lead),
-    ]);
-    const sentChannels = deliveries.flatMap((result) => {
-      if (result.status !== 'fulfilled' || !result.value.sent) {
-        return [];
-      }
-      return [result.value.channel];
-    });
+    const delivery = await deliverLead(lead);
 
-    if (sentChannels.length === 0) {
-      const failedChannels = deliveries.flatMap((result) => {
-        if (result.status === 'fulfilled') {
-          return [result.value.channel];
-        }
-        return ['unknown'];
-      });
-
+    if (!delivery.sent) {
       console.error('[lead] submission could not be delivered', {
         formId: lead.formId,
-        channels: failedChannels,
+        channels: delivery.attempts.map((attempt) => attempt.channel),
         fallback:
           'Configure SMTP_HOST/SMTP_USER/SMTP_PASSWORD and LEAD_TO_EMAIL, or LEAD_WEBHOOK_URL, or RESEND_API_KEY.',
       });
