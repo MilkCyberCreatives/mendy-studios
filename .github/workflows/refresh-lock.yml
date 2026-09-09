@@ -1,21 +1,24 @@
-name: Refresh lockfile
+name: Production hardening validation
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/production-hardening-2026-09-09
+      - main
 
 permissions:
   contents: write
 
 jobs:
-  refresh-lock:
-    if: github.actor != 'github-actions[bot]'
+  validate-and-refresh-lock:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
+
     steps:
-      - name: Checkout
+      - name: Checkout pull request branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -23,8 +26,42 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Refresh package lock
-        run: npm install --package-lock-only --ignore-scripts
+      - name: Install dependencies and refresh lockfile
+        run: npm install
+
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Production build
+        run: npm run build
+
+      - name: Start production server
+        shell: bash
+        run: |
+          npm run start > /tmp/mendy-studios.log 2>&1 &
+          echo $! > /tmp/mendy-studios.pid
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/ > /dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/mendy-studios.log
+          exit 1
+
+      - name: Non-destructive smoke tests
+        run: npm run test:smoke
+
+      - name: Stop production server
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/mendy-studios.pid ]; then
+            kill "$(cat /tmp/mendy-studios.pid)" || true
+          fi
 
       - name: Commit refreshed lockfile
         shell: bash
@@ -36,5 +73,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add package-lock.json
-          git commit -m "chore: refresh lockfile for Next.js 16.3.3"
-          git push
+          git commit -m "chore: refresh lockfile for Next.js 16.3.4"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
