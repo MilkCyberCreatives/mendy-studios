@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test:smoke": "node scripts/qa-smoke.mjs",
     "optimize:images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
