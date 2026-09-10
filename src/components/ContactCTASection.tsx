@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -15,6 +15,62 @@ export default function ContactCTASection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState('');
   const [formError, setFormError] = useState('');
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const firstFieldRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!showForm) {
+      return;
+    }
+
+    const dialog = dialogRef.current;
+    const trigger = triggerRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    firstFieldRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setShowForm(false);
+        return;
+      }
+
+      if (event.key !== 'Tab' || !dialog) {
+        return;
+      }
+
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => !element.hasAttribute('aria-hidden'));
+
+      if (focusable.length === 0) {
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      trigger?.focus();
+    };
+  }, [showForm]);
 
   const handleQuickMessageSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,6 +88,7 @@ export default function ContactCTASection() {
         phone: String(formData.get('phone') || ''),
         message: String(formData.get('message') || ''),
         page: pathname,
+        website: String(formData.get('website') || ''),
       });
 
       trackLead('form', 'quick_message_modal');
@@ -92,6 +149,7 @@ export default function ContactCTASection() {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
           <button
+            ref={triggerRef}
             type="button"
             onClick={() => setShowForm(true)}
             className="bg-[#F26722] px-6 py-3 rounded-full hover:bg-white hover:text-[#F26722] transition"
@@ -122,6 +180,7 @@ export default function ContactCTASection() {
             aria-labelledby="quick-message-title"
           >
             <motion.div
+              ref={dialogRef}
               className="bg-white rounded-xl p-8 max-w-md w-full relative text-black border border-black/10"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -139,9 +198,11 @@ export default function ContactCTASection() {
               <h3 id="quick-message-title" className="text-xl font-semibold mb-4">Quick Message</h3>
               <form className="space-y-4" onSubmit={handleQuickMessageSubmit}>
                 <input
+                  ref={firstFieldRef}
                   type="text"
                   name="name"
                   required
+                  autoComplete="name"
                   aria-label="Your name"
                   placeholder="Your Name"
                   className="w-full border px-4 py-2 rounded-md"
@@ -150,6 +211,7 @@ export default function ContactCTASection() {
                   type="email"
                   name="email"
                   required
+                  autoComplete="email"
                   aria-label="Your email"
                   placeholder="Your Email"
                   className="w-full border px-4 py-2 rounded-md"
@@ -157,6 +219,7 @@ export default function ContactCTASection() {
                 <input
                   type="tel"
                   name="phone"
+                  autoComplete="tel"
                   aria-label="Your phone"
                   placeholder="Your Phone"
                   className="w-full border px-4 py-2 rounded-md"
@@ -170,13 +233,27 @@ export default function ContactCTASection() {
                   rows={4}
                   className="w-full border px-4 py-2 rounded-md"
                 />
+                <div
+                  aria-hidden="true"
+                  style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}
+                >
+                  <label htmlFor="quick-message-website">Website</label>
+                  <input
+                    id="quick-message-website"
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
-                {formError ? <p className="text-sm text-red-600">{formError}</p> : null}
-                {formMessage ? <p className="text-sm text-green-600">{formMessage}</p> : null}
+                {formError ? <p role="alert" className="text-sm text-red-600">{formError}</p> : null}
+                {formMessage ? <p role="status" aria-live="polite" className="text-sm text-green-600">{formMessage}</p> : null}
 
                 <button
                   type="submit"
                   disabled={isSubmitting}
+                  aria-busy={isSubmitting}
                   className="bg-[#F26722] text-white px-4 py-2 rounded-md w-full hover:bg-black disabled:opacity-60 transition"
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}

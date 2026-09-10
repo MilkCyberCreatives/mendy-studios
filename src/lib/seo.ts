@@ -94,7 +94,6 @@ export function createPageMetadata(options: MetadataOptions = {}): Metadata {
     title,
     description = DEFAULT_DESCRIPTION,
     path = "/",
-    keywords = [],
     images = [DEFAULT_OG_IMAGE],
     type = "website",
     noIndex = false,
@@ -105,13 +104,8 @@ export function createPageMetadata(options: MetadataOptions = {}): Metadata {
   return {
     title: title || DEFAULT_TITLE,
     description,
-    keywords: [...SITE.keywords, ...keywords],
     alternates: {
       canonical,
-      languages: {
-        "en-ZA": canonical,
-        "x-default": canonical,
-      },
     },
     openGraph: {
       title: socialTitle(title),
@@ -224,10 +218,7 @@ export function getLocalBusinessSchema() {
       "Gauteng",
       "South Africa",
     ],
-    priceRange: "$$",
     sameAs: Object.values(SITE.socials),
-    paymentAccepted: ["Cash", "EFT", "Card"],
-    currenciesAccepted: SITE.currency,
     hasOfferCatalog: getOfferCatalog(),
     contactPoint: [
       {

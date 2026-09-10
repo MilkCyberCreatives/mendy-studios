@@ -23,7 +23,6 @@ export const metadata = {
   description:
     'Mendy Studios offers professional photography and videography services in Gauteng, South Africa. Specialising in weddings, portraits, events, and corporate shoots.',
   applicationName: SITE.name,
-  keywords: SITE.keywords,
   category: 'Photography',
   referrer: 'origin-when-cross-origin',
   creator: SITE.name,
