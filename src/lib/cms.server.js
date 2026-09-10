@@ -18,9 +18,13 @@ function normaliseRpcResult(data) {
 
 async function rpc(name, payload) {
   const baseUrl = (process.env.CMS_DATA_API_URL || DEFAULT_DATA_API_URL).replace(/\/$/, '');
+  const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
+  const vercelOidcToken = process.env.VERCEL_OIDC_TOKEN;
+  if (vercelOidcToken) headers.Authorization = `Bearer ${vercelOidcToken}`;
+
   const response = await fetch(`${baseUrl}/rpc/${name}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    headers,
     body: JSON.stringify(payload),
     cache: 'no-store',
   });
