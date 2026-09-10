@@ -33,7 +33,12 @@ export async function POST(request) {
     await setCmsSession(result.token);
     return NextResponse.json({ ok: true, user: result.user });
   } catch (error) {
-    console.error('[cms] login failed', error instanceof Error ? error.message : 'unknown_error');
-    return NextResponse.json({ ok: false, error: 'Unable to sign in right now.' }, { status: 500 });
+    const message = error instanceof Error ? error.message : 'unknown_error';
+    console.error('[cms] login failed', message);
+    const cmsUnavailable = message.includes('CMS RPC ');
+    return NextResponse.json(
+      { ok: false, error: cmsUnavailable ? 'The back-office service is temporarily unavailable. Please try again.' : 'Unable to sign in right now.' },
+      { status: cmsUnavailable ? 503 : 500 },
+    );
   }
 }
