@@ -9,119 +9,37 @@ import { trackEvent } from '../lib/marketing';
 
 export default function FooterSection() {
   return (
-    <footer data-reveal className="relative bg-black py-20 px-6 text-gray-300 overflow-hidden">
+    <footer data-cms-key="global-footer" data-reveal className="relative bg-black py-20 px-6 text-gray-300 overflow-hidden">
       <div className="absolute inset-0 bg-black/90 z-0" />
-
       <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-[80%] bg-[#F26722]/70 z-10" />
-
       <div className="relative z-10 max-w-6xl mx-auto flex flex-col items-center text-center space-y-6">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <Image
-            src="/mendy-studios-logo-white.svg"
-            alt="Mendy Studios"
-            width={160}
-            height={60}
-            className="mb-3"
-          />
+        <motion.div initial={{ scale: 0.8, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
+          <Image data-cms-key="footer-logo" src="/mendy-studios-logo-white.svg" alt="Mendy Studios" width={160} height={60} className="mb-3" />
         </motion.div>
-
-        <motion.p
-          className="text-gray-400 max-w-2xl text-sm"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-        >
+        <motion.p data-cms-key="footer-description" className="text-gray-400 max-w-2xl text-sm" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} viewport={{ once: true }}>
           Mendy Studios is a Midrand-based photography & videography brand that captures life&apos;s most important moments with elegance and clarity. We don&apos;t just shoot-we tell stories.
         </motion.p>
-
-        <motion.div
-          className="flex space-x-5 text-xl mt-4"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          viewport={{ once: true }}
-        >
-          <Link
-            href="https://facebook.com/mendystudios"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Mendy Studios on Facebook"
-            className="hover:text-[#F26722] transition-all"
-            onClick={() => trackEvent('social_click', { platform: 'facebook', location: 'footer' })}
-          >
-            <FaFacebookF aria-hidden="true" />
-          </Link>
-          <Link
-            href="https://instagram.com/mendystudios"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Mendy Studios on Instagram"
-            className="hover:text-[#F26722] transition-all"
-            onClick={() => trackEvent('social_click', { platform: 'instagram', location: 'footer' })}
-          >
-            <FaInstagram aria-hidden="true" />
-          </Link>
-          <Link
-            href="https://youtube.com/@mendystudios"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Mendy Studios on YouTube"
-            className="hover:text-[#F26722] transition-all"
-            onClick={() => trackEvent('social_click', { platform: 'youtube', location: 'footer' })}
-          >
-            <FaYoutube aria-hidden="true" />
-          </Link>
+        <motion.div className="flex space-x-5 text-xl mt-4" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }}>
+          <Link data-cms-key="footer-facebook" data-cms-setting="social.facebook" data-cms-property="href" href="https://facebook.com/mendystudios" target="_blank" rel="noopener noreferrer" aria-label="Mendy Studios on Facebook" className="hover:text-[#F26722] transition-all" onClick={() => trackEvent('social_click', { platform: 'facebook', location: 'footer' })}><FaFacebookF aria-hidden="true" /></Link>
+          <Link data-cms-key="footer-instagram" data-cms-setting="social.instagram" data-cms-property="href" href="https://instagram.com/mendystudios" target="_blank" rel="noopener noreferrer" aria-label="Mendy Studios on Instagram" className="hover:text-[#F26722] transition-all" onClick={() => trackEvent('social_click', { platform: 'instagram', location: 'footer' })}><FaInstagram aria-hidden="true" /></Link>
+          <Link data-cms-key="footer-youtube" data-cms-setting="social.youtube" data-cms-property="href" href="https://youtube.com/@mendystudios" target="_blank" rel="noopener noreferrer" aria-label="Mendy Studios on YouTube" className="hover:text-[#F26722] transition-all" onClick={() => trackEvent('social_click', { platform: 'youtube', location: 'footer' })}><FaYoutube aria-hidden="true" /></Link>
         </motion.div>
-
-        <motion.div
-          className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-400"
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          viewport={{ once: true }}
-        >
-          <Link href="/" className="hover:text-white">Home</Link>
-          <Link href="/about" className="hover:text-white">About</Link>
-          <Link href="/services" className="hover:text-white">Services</Link>
-          <Link href="/areas" className="hover:text-white">Areas</Link>
-          <Link href="/motion" className="hover:text-white">Motion</Link>
-          <Link href="/gallery" className="hover:text-white">Gallery</Link>
-          <Link href="/stories" className="hover:text-white">Stories</Link>
-          <Link href="/faqs" className="hover:text-white">FAQs</Link>
-          <Link href="/contact" className="hover:text-white">Contact</Link>
+        <motion.div data-cms-key="footer-navigation" className="mt-6 flex flex-wrap justify-center gap-6 text-sm text-gray-400" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.6 }} viewport={{ once: true }}>
+          <Link data-cms-key="footer-home" href="/" className="hover:text-white">Home</Link>
+          <Link data-cms-key="footer-about" href="/about" className="hover:text-white">About</Link>
+          <Link data-cms-key="footer-services" href="/services" className="hover:text-white">Services</Link>
+          <Link data-cms-key="footer-areas" href="/areas" className="hover:text-white">Areas</Link>
+          <Link data-cms-key="footer-motion" href="/motion" className="hover:text-white">Motion</Link>
+          <Link data-cms-key="footer-gallery" href="/gallery" className="hover:text-white">Gallery</Link>
+          <Link data-cms-key="footer-stories" href="/stories" className="hover:text-white">Stories</Link>
+          <Link data-cms-key="footer-faqs" href="/faqs" className="hover:text-white">FAQs</Link>
+          <Link data-cms-key="footer-contact" href="/contact" className="hover:text-white">Contact</Link>
         </motion.div>
-
-        <motion.button
-          type="button"
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="mt-8 bg-[#F26722] text-white p-3 rounded-full hover:bg-[#d6551c] transition-all"
-          aria-label="Scroll to top"
-        >
-          <FaArrowUp aria-hidden="true" />
-        </motion.button>
+        <motion.button data-cms-key="footer-scroll-top" type="button" whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.9 }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="mt-8 bg-[#F26722] text-white p-3 rounded-full hover:bg-[#d6551c] transition-all" aria-label="Scroll to top"><FaArrowUp aria-hidden="true" /></motion.button>
       </div>
-
       <div className="text-center text-gray-500 text-xs mt-10 relative z-10 space-y-2">
-        <div>&copy; {new Date().getFullYear()} Mendy Studios. All rights reserved.</div>
-        <div>
-          Developed and Designed by{' '}
-          <Link
-            href="https://www.milkcybercreatives.co.za"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#F26722] hover:underline"
-          >
-            Milk Cyber Creatives
-          </Link>
-        </div>
+        <div data-cms-key="footer-copyright">&copy; {new Date().getFullYear()} Mendy Studios. All rights reserved.</div>
+        <div data-cms-key="footer-credit">Developed and Designed by{' '}<Link data-cms-key="footer-credit-link" href="https://www.milkcybercreatives.co.za" target="_blank" rel="noopener noreferrer" className="text-[#F26722] hover:underline">Milk Cyber Creatives</Link></div>
       </div>
     </footer>
   );
