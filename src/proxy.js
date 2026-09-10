@@ -1,12 +1,15 @@
 import { NextResponse } from 'next/server';
 
+const DEFAULT_DATA_API_URL = 'https://ep-young-waterfall-b2lfjemj.apirest.c-6.eu-central-1.aws.neon.tech/mendy_cms/rest/v1';
+
 export async function proxy(request) {
-  const baseUrl = process.env.CMS_DATA_API_URL?.replace(/\/$/, '');
-  if (!baseUrl) return NextResponse.next();
+  const baseUrl = (process.env.CMS_DATA_API_URL || DEFAULT_DATA_API_URL).replace(/\/$/, '');
   try {
     const response = await fetch(`${baseUrl}/rpc/cms_public_redirect`, {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({ p_from: request.nextUrl.pathname }), cache: 'no-store',
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ p_from: request.nextUrl.pathname }),
+      cache: 'no-store',
     });
     if (!response.ok) return NextResponse.next();
     const redirect = await response.json();
@@ -14,7 +17,9 @@ export async function proxy(request) {
     const destination = new URL(redirect.to_path, request.url);
     if (destination.href === request.url) return NextResponse.next();
     return NextResponse.redirect(destination, Number(redirect.status_code) || 308);
-  } catch { return NextResponse.next(); }
+  } catch {
+    return NextResponse.next();
+  }
 }
 
 export const config = {
