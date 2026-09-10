@@ -1,13 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [setupMode, setSetupMode] = useState(false);
+
+  useEffect(() => {
+    setSetupMode(new URLSearchParams(window.location.search).has('setup'));
+  }, []);
 
   async function submit(event) {
     event.preventDefault();
@@ -29,8 +34,6 @@ export default function LoginForm() {
       setLoading(false);
     }
   }
-
-  const setupMode = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('setup');
 
   return (
     <div className="admin-login-shell">
