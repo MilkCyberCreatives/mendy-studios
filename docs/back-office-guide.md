@@ -35,3 +35,7 @@ The Mendy Studios website includes a protected self-service back office at `/adm
 The public website retains its existing coded design and content as the fallback. CMS changes are stored separately and applied as controlled published overrides. Admin pages are excluded from search indexing. Authentication uses short-lived database-backed sessions stored in an HttpOnly cookie.
 
 The first Super Admin is created using a single-use setup link supplied privately by the developer. The setup token invalidates itself immediately after successful account creation and must never be committed to this repository.
+
+## Deployment note
+
+Production releases must be verified by opening `/admin` on the custom domain and confirming an unauthenticated request redirects to `/admin/login` before handing access to the client.
