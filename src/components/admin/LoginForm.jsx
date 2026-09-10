@@ -22,7 +22,9 @@ export default function LoginForm() {
       const setupToken = new URLSearchParams(window.location.search).get('setup') || '';
       const response = await fetch('/api/cms/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        cache: 'no-store',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email, password, setupToken }),
       });
       const result = await response.json();
