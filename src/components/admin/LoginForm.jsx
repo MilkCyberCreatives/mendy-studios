@@ -14,10 +14,11 @@ export default function LoginForm() {
     setError('');
     setLoading(true);
     try {
+      const setupToken = new URLSearchParams(window.location.search).get('setup') || '';
       const response = await fetch('/api/cms/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, setupToken }),
       });
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.error || 'Sign in failed.');
@@ -29,14 +30,16 @@ export default function LoginForm() {
     }
   }
 
+  const setupMode = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('setup');
+
   return (
     <div className="admin-login-shell">
       <form className="admin-login-card" onSubmit={submit}>
         <Image src="/mendy-studios-logo-white.svg" alt="Mendy Studios" width={190} height={70} priority />
         <div>
           <p className="admin-kicker">Back Office</p>
-          <h1>Website Management</h1>
-          <p className="admin-muted">Sign in to manage content, images, SEO, enquiries and every editable website detail.</p>
+          <h1>{setupMode ? 'Create Super Admin' : 'Website Management'}</h1>
+          <p className="admin-muted">{setupMode ? 'Choose the email address and password you want to use for Mendy Studios back-office access. This setup link works once.' : 'Sign in to manage content, images, SEO, enquiries and every editable website detail.'}</p>
         </div>
         <label>
           <span>Email address</span>
@@ -44,10 +47,10 @@ export default function LoginForm() {
         </label>
         <label>
           <span>Password</span>
-          <input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} />
+          <input type="password" minLength={8} autoComplete={setupMode ? 'new-password' : 'current-password'} required value={password} onChange={(event) => setPassword(event.target.value)} />
         </label>
         {error ? <div className="admin-alert error">{error}</div> : null}
-        <button className="admin-primary-button" type="submit" disabled={loading}>{loading ? 'Signing in…' : 'Sign in'}</button>
+        <button className="admin-primary-button" type="submit" disabled={loading}>{loading ? (setupMode ? 'Creating account…' : 'Signing in…') : (setupMode ? 'Create Super Admin' : 'Sign in')}</button>
         <a className="admin-text-link" href="/">← Return to website</a>
       </form>
     </div>
